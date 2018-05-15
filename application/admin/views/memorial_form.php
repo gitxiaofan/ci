@@ -15,6 +15,7 @@
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/admin/css/plugins/simditor/simditor.css" />
     <link href="<?php echo base_url() ?>/assets/admin/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
@@ -54,29 +55,50 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">密码：</label>
+                            <label class="col-sm-3 control-label">生日：</label>
                             <div class="col-sm-8">
-                                <input id="password" name="password" class="form-control" type="password">
+                                <input id="birthday" name="birthday" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">确认密码：</label>
+                            <label class="col-sm-3 control-label">忌日：</label>
                             <div class="col-sm-8">
-                                <input id="confirm_password" name="confirm_password" class="form-control" type="password">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                                <input id="death" name="death" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">姓名/昵称：</label>
+                            <label class="col-sm-3 control-label">墓志铭：</label>
                             <div class="col-sm-8">
-                                <input id="nickname" name="nickname" value="<?php echo empty($user['nickname']) ? '':$user['nickname']; ?>" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 姓名/昵称是必填的</span>
+                                <textarea id="epitaph" name="epitaph" class="form-control" rows="3"><?php echo empty($memorial['epitaph']) ? '':$memorial['epitaph']; ?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">E-mail：</label>
+                            <label class="col-sm-3 control-label">是否突出显示：</label>
                             <div class="col-sm-8">
-                                <input id="email" name="email" value="<?php echo empty($user['email']) ? '':$user['email']; ?>" class="form-control" type="email">
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_strong" value="1"> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_strong" value="0"> 否
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否置顶：</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="stick" value="1"> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="stick" value="0"> 否
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">纪事：</label>
+                            <div class="col-sm-8">
+                                <textarea name="content" id="editor" placeholder="这里输入内容"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -111,91 +133,34 @@
         var icon = "<i class='fa fa-times-circle'></i> ";
         $('#admin_add').validate({
             rules: {
-                nickname: {
+                name: {
                     required: true,
-                    minlength: 2
-                },
-                password: {
-                    required: true,
-                    minlength: 5
-                },
-                confirm_password: {
-                    required: true,
-                    minlength: 5,
-                    equalTo: "#password"
-                },
-                email: {
-                    email: true
-                },
-                mobile: {
-                    number: true,
-                    maxlength: 20,
-                    remote: {
-                        url: "<?php echo site_url('user/checkMobile');?>",
-                        type: "post",
-                        dataType: "json",
-                        data:{
-                            mobile:function(){ return $("#mobile").val(); }
-                        }
-                    }
+                    minlength: 1
                 }
             },
             messages: {
-                nickname: {
+                name: {
                     required: icon + "请输入您的姓名/昵称",
                     minlength: icon + "姓名/昵称必须两个字符以上"
-                },
-                password: {
-                    required: icon + "请输入您的密码",
-                    minlength: icon + "密码必须5个字符以上"
-                },
-                confirm_password: {
-                    required: icon + "请再次输入密码",
-                    minlength: icon + "密码必须5个字符以上",
-                    equalTo: icon + "两次输入的密码不一致"
-                },
-                email: icon + "请输入正确格式的E-mail",
-                mobile: icon + "请输入正确格式的手机号码",
-                remote : icon + "此手机号已被注册"
-            }
+                }
         });
 
-        $('#admin_mod').validate({
-            rules: {
-                nickname: {
-                    required: true,
-                    minlength: 2
-                },
-                password: {
-                    minlength: 5
-                },
-                confirm_password: {
-                    minlength: 5,
-                    equalTo: "#password"
-                },
-                email: {
-                    email: true
-                },
-                mobile: {
-                    number: true,
-                    maxlength: 20
-                }
-            },
-            messages: {
-                nickname: {
-                    required: icon + "请输入您的姓名/昵称",
-                    minlength: icon + "姓名/昵称必须两个字符以上"
-                },
-                password: {
-                    minlength: icon + "密码必须5个字符以上"
-                },
-                confirm_password: {
-                    minlength: icon + "密码必须5个字符以上",
-                    equalTo: icon + "两次输入的密码不一致"
-                },
-                email: icon + "请输入正确格式的E-mail",
-                mobile: icon + "请输入正确格式的手机号码"
-            }
+    });
+</script>
+
+<!-- layerDate plugin javascript -->
+<script src="<?php echo base_url() ?>/assets/admin/js/plugins/layer/laydate/laydate.js"></script>
+
+<!-- simditor -->
+<script type="text/javascript" src="<?php echo base_url() ?>/assets/admin/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/assets/admin/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/assets/admin/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>/assets/admin/js/plugins/simditor/simditor.js"></script>
+<script>
+    $(document).ready(function () {
+        var editor = new Simditor({
+            textarea: $('#editor'),
+            defaultImage: 'img/a9.jpg'
         });
     });
 </script>

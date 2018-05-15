@@ -59,7 +59,7 @@ class Admin extends Common {
                 $params['username'] = $_POST['username'];
             }
             if (!empty($_POST['password'])){
-                $params['password'] = md5($_POST['username']);
+                $params['password'] = md5($_POST['password']);
             }
             if (!empty($_POST['email'])){
                 $params['email'] = $_POST['email'];

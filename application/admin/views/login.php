@@ -43,6 +43,12 @@
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
             </form>
+            <?php if($error):?>
+                <div class="alert alert-danger alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <?php echo $error['message']; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

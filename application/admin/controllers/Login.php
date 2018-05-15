@@ -6,13 +6,15 @@ class Login extends CI_Controller
     public function index()
     {
         $data = array();
+        $data['error'] = array();
         if (isset($_POST) && $_POST){
             $ret = $this->dologin();
-            if ($ret > 0){
+            if ($ret['status'] > 0){
                 redirect(site_url('home/index'));
             }
-            $data['erro'] = $ret;
+            $data['error'] = $ret;
         }
+
         $this->load->view('login',$data);
     }
 
@@ -26,7 +28,7 @@ class Login extends CI_Controller
         $sql = 'SELECT * FROM admin WHERE username = "'. $username. '" AND password = "'. $password. '"';
         $query = $this->db->query($sql);
         $ret = $query->result_array();
-        if (!$ret[0]){
+        if (!$ret){
             return array('message' => '用户名或密码错误', 'status' => '-2');
         }
         $_SESSION['admin'] = $ret[0];
