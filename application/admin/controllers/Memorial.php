@@ -1,47 +1,45 @@
 <?php
 include 'Common.php';
 
-class User extends Common
+class Memorial extends Common
 {
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model');
+        //$this->load->model('memorail_model');
     }
 
-    /**
-     * 用户管理
+    /*
+     * 纪念馆管理
      */
     public function index()
     {
         $data = array(
-            'title' => '用户列表',
+            'title' => '纪念馆列表',
         );
-        $sql = 'SELECT * FROM user';
-        if ($query = $this->db->query($sql)){
-            $data['users'] = $query->result_array();
-        }
-        $this->load->view('user_index', $data);
+        $sql = 'SELECT * FROM memorial';
+        $query = $this->db->query($sql);
+        $data['memorials'] = $query->result_array();
+        $this->load->view('memorial_index',$data);
     }
 
     public function add()
     {
         $data = array(
-            'title' => '添加用户',
-            'action' => 'mod',
+            'title' => '添加纪念馆',
+            'action' => 'add',
         );
         if (isset($_POST)&&$_POST){
             $ret = $this->doadd();
             if ($ret > 0){
-                redirect(site_url('user/index'));
+                redirect(site_url('memorial/index'));
             }
             $data['error'] = $ret;
         }
-        $this->load->view('user_form', $data);
+        $this->load->view('memorial_form', $data);
     }
 
-    private function doadd()
+    public function doadd()
     {
         if (empty($_POST['mobile']) || empty($_POST['password'])){
             return  array('message' => '手机号或密码不能为空！','status'=>'-1');
@@ -60,21 +58,11 @@ class User extends Common
 
     public function mod()
     {
-        file_put_contents('');
 
     }
 
     public function del()
     {
 
-    }
-
-    public function checkMobile()
-    {
-        if ($_REQUEST['mobile'] == '123456'){
-            exit('false');
-        }else{
-            exit('true');
-        }
     }
 }

@@ -50,31 +50,31 @@
                 </div>
                 <div class="ibox-content">
                     <div class="">
-                        <a href="<?php echo site_url('user/add'); ?>" class="btn btn-primary ">添加用户</a>
+                        <a href="<?php echo site_url('memorial/add'); ?>" class="btn btn-primary ">添加纪念馆</a>
                     </div>
                     <table class="table table-striped table-bordered table-hover " id="editable">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>姓名/昵称</th>
-                            <th>手机号</th>
-                            <th>角色</th>
+                            <th>姓名</th>
+                            <th>照片</th>
+                            <th>创建人</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($users as $user): ?>
+                        <?php foreach($memorials as $memorial): ?>
                             <tr>
-                                <td><?php echo $user['user_id']; ?></td>
-                                <td><?php echo $user['nickname']; ?></td>
-                                <td><?php echo $user['mobile']; ?></td>
-                                <td>用户</td>
-                                <td><?php echo $user['ctime']; ?></td>
+                                <td><?php echo $memorial['id']; ?></td>
+                                <td><?php echo $memorial['name']; ?></td>
+                                <td>图片</td>
+                                <td><?php echo $memorial['user_id']; ?></td>
+                                <td><?php echo $memorial['ctime']; ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="<?php echo site_url('user/mod'). '?id='. $user['user_id']; ?>" class="btn btn-info btn-sm">修改</a>
-                                        <a href="<?php echo site_url('user/del'). '?id='. $user['user_id']; ?>" class="btn btn-danger btn-sm">删除</a>
+                                        <a href="<?php echo site_url('memorial/mod'). '?id='. $memorial['id']; ?>" class="btn btn-info btn-sm">修改</a>
+                                        <a href="<?php echo site_url('memorial/del'). '?id='. $memorial['id']; ?>" class="btn btn-danger btn-sm">删除</a>
                                     </div>
                                 </td>
                             </tr>

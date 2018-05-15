@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'memorial',
+	'hostname' => '39.108.15.40',
+	'username' => 'jinian_user',
+	'password' => 'XHXsHfp3eqpZUu',
+	'database' => 'jinian',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

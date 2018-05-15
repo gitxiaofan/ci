@@ -11,7 +11,8 @@
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
     <!-- Data Tables -->
@@ -49,7 +50,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="">
-                            <a onclick="fnClickAddRow();" href="javascript:void(0);" class="btn btn-primary ">添加管理员</a>
+                            <a href="<?php echo site_url('admin/add'); ?>" class="btn btn-primary ">添加管理员</a>
                         </div>
                         <table class="table table-striped table-bordered table-hover " id="editable">
                             <thead>
@@ -68,19 +69,15 @@
                                     <td><?php echo $admin['username']; ?></td>
                                     <td>管理员</td>
                                     <td><?php echo $admin['ctime']; ?></td>
-                                    <td><a href="javascript:void(0);" class="btn btn-primary">修改</a></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="<?php echo site_url('admin/mod'). '?id='. $admin['admin_id']; ?>" class="btn btn-info btn-sm">修改</a>
+                                            <a href="<?php echo site_url('admin/del'). '?id='. $admin['admin_id']; ?>" class="btn btn-danger btn-sm">删除</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>用户名</th>
-                                    <th>角色</th>
-                                    <th>创建时间</th>
-                                    <th>操作</th>
-                                </tr>
-                            </tfoot>
                         </table>
 
                     </div>
