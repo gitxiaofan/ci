@@ -31,20 +31,8 @@
                 <div class="ibox-title">
                     <h5>添加/编辑广告</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="form_basic.html#">选项1</a>
-                            </li>
-                            <li><a href="form_basic.html#">选项2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
+                        <a href="<?php echo site_url('ad/index')?>">
+                            <i class="fa fa-reply"></i> 返回上一页
                         </a>
                     </div>
                 </div>
@@ -61,6 +49,11 @@
                             <label class="col-sm-3 control-label">上传广告图片：</label>
                             <div class="col-sm-8">
                                 <input type="file" name="pic" class="form-control" accept="image/*">
+                                <?php if($action =='mod'){?>
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 留空是不修改图片</span>
+                                <?php }else{ ?>
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 上传图片大小最大是2M</span>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,6 +64,13 @@
                                     <option <?php echo empty($ad['cat_id']) ? '' : $k == $ad['cat_id'] ? 'selected':''?> value="<?php echo $k; ?>"><?php echo $val?></option>
                                     <?php endforeach;?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">跳转链接：</label>
+                            <div class="col-sm-8">
+                                <input id="link" name="link" value="<?php echo empty($ad['link']) ? '':$ad['link']; ?>" class="form-control" type="text">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>填写点击图片跳转的网址</span>
                             </div>
                         </div>
                         <div class="form-group">

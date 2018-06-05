@@ -14,7 +14,9 @@ class Ad extends Common
         $data = array(
             'title' => '广告列表',
         );
-        $sql = 'SELECT * FROM ad';
+        $per_page = 20;
+        $limit = (intval(isset($_GET['per_page']) ? $_GET['per_page'] : 1) - 1) * $per_page;
+        $sql = 'SELECT * FROM ad WHERE 1 '. $this->condition(). ' ORDER BY id DESC LIMIT '. $limit. ','. $per_page;
         $query = $this->db->query($sql);
         $res = $query->result_array();
         $ads = array();
@@ -25,7 +27,25 @@ class Ad extends Common
         }
         $data['ads'] = $ads;
         $data['adcats'] = $this->ad_model->adcat();
+        $data['pagination'] = $this->page(site_url('ad/index'),$this->count(),$per_page);
         $this->load->view('ad_index',$data);
+    }
+
+    public function condition()
+    {
+        $condition = '';
+        if(!empty($_GET['k'])){
+            $condition .= 'AND title LIKE "%'.$_GET['k'].'%" ';
+        }
+        return $condition;
+    }
+
+    public function count()
+    {
+        $sql = 'SELECT count(*) count FROM ad WHERE 1 '. $this->condition();
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res[0]['count'];
     }
 
     public function add()
@@ -40,6 +60,7 @@ class Ad extends Common
             }
             $params = array();
             $params['title'] = htmlspecialchars($_POST['title']);
+            $params['link'] = htmlspecialchars($_POST['link']);
             $params['cat_id'] = intval($_POST['cat_id']);
             $params['sort'] = intval($_POST['sort']);
             $file = $this->do_upload('pic','ad');
@@ -53,26 +74,28 @@ class Ad extends Common
 
     public function mod()
     {
+        $data = array(
+            'title' => '修改广告',
+            'action' => 'mod',
+        );
         $id = intval($_GET['id']);
         if(!$id){
             show_error('ID不能为空','-1');
         }
+        $data['id'] = $id;
         if(isset($_POST) && $_POST){
             $params = array();
             $params['title'] = htmlspecialchars($_POST['title']);
+            $params['link'] = htmlspecialchars($_POST['link']);
             $params['cat_id'] = intval($_POST['cat_id']);
             $params['sort'] = intval($_POST['sort']);
-            if($_FILES){
+            if(!empty($_FILES['pic']['tmp_name'])){
                 $file = $this->do_upload('pic','ad');
                 $params['pic'] = 'uploads/ad/'. $file['file_name'];
             }
             $this->ad_model->mod($id,$params);
             redirect(site_url('ad/index'));
         }
-        $data = array(
-            'title' => '修改广告',
-            'action' => 'mod',
-        );
         $data['ad'] = $this->ad_model->detail($id);
         $data['adcats'] = $this->ad_model->adcat();
         $this->load->view('ad_form', $data);

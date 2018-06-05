@@ -7,22 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>H+ 后台主题UI框架 - 表单验证 jQuery Validation</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <title>编辑祭品 - 追思网</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/animate.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/admin/css/plugins/simditor/simditor.css" />
     <link href="<?php echo base_url() ?>/assets/admin/css/style.css?v=4.1.0" rel="stylesheet">
 
 </head>
 
 <body class="gray-bg">
 <?php
-print_r($sacrifice);
+//print_r($sacrifice);
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -31,20 +28,8 @@ print_r($sacrifice);
                 <div class="ibox-title">
                     <h5>添加/编辑祭品</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="form_basic.html#">选项1</a>
-                            </li>
-                            <li><a href="form_basic.html#">选项2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
+                        <a href="<?php echo site_url('sacrifice/index')?>">
+                            <i class="fa fa-reply"></i> 返回上一页
                         </a>
                     </div>
                 </div>
@@ -61,6 +46,11 @@ print_r($sacrifice);
                             <label class="col-sm-3 control-label">上传祭品图片</label>
                             <div class="col-sm-8">
                                 <input type="file" name="pic" class="form-control" accept="image/*">
+                                <?php if($action =='mod'){?>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 留空是不修改图片</span>
+                                <?php }else{ ?>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 上传图片大小最大是2M</span>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -108,8 +98,8 @@ print_r($sacrifice);
             },
             messages: {
                 name: {
-                    required: icon + "请输入您的姓名/昵称",
-                    minlength: icon + "姓名/昵称必须两个字符以上"
+                    required: icon + "请输入祭品名称",
+                    minlength: icon + "祭品名称必须两个字符以上"
                 }
             }
         });

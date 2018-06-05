@@ -54,9 +54,12 @@ class Admin_model extends CI_Model
         return $this->db->query($sql);
     }
 
-    public function username_unique($username)
+    public function username_unique($username,$id=0)
     {
         $sql = 'SELECT * FROM admin WHERE username="'. $username. '"';
+        if($id){
+            $sql .= ' AND admin_id !='.$id;
+        }
         $query = $this->db->query($sql);
         return $query->result_array();
     }

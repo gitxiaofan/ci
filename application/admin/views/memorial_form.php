@@ -7,10 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>H+ 后台主题UI框架 - 表单验证 jQuery Validation</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
-
+    <title>编辑纪念馆 - 追思网</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.css?v=4.4.0" rel="stylesheet">
@@ -28,20 +25,8 @@
                 <div class="ibox-title">
                     <h5>添加/编辑纪念馆</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="form_basic.html#">选项1</a>
-                            </li>
-                            <li><a href="form_basic.html#">选项2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
+                        <a href="<?php echo site_url('memorial/index')?>">
+                            <i class="fa fa-reply"></i> 返回上一页
                         </a>
                     </div>
                 </div>
@@ -167,7 +152,18 @@
     $(document).ready(function () {
         var editor = new Simditor({
             textarea: $('#editor'),
-            defaultImage: 'img/a9.jpg'
+            defaultImage: '<?php echo base_url() ?>/assets/admin/img/a9.jpg',
+            placeholder : '这里输入内容...',
+            pasteImage: true,
+            toolbarFloat:true,
+            toolbar : toolbar,  //工具栏
+            upload : {
+                url : '<?php echo site_url('memorial/upload_img')?>', //文件上传的接口地址
+                params: '', //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                fileKey: 'file', //服务器端获取文件数据的参数名
+                connectionCount: 3,
+                leaveConfirm: '正在上传文件'
+            }
         });
     });
 </script>

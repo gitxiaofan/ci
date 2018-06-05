@@ -21,7 +21,7 @@ class Memorial_model extends CI_Model
         $sql = rtrim($sql, ',');
         $this->db->query($sql);
         $id = $this->db->insert_id();
-        if ($data['content'] && $id){
+        if ($id){
             $sql = 'INSERT INTO memorial_content SET memorial_id = '. $id. ', content = "'. $data['content']. '"';
             $this->db->query($sql);
         }
@@ -65,6 +65,27 @@ class Memorial_model extends CI_Model
         $sql = 'DELETE FROM memorial WHERE id IN ('. $id. ')';
         $this->db->query($sql);
         $sql = 'DELETE FROM memorial_content WHERE memorial_id IN ('. $id. ')';
+        $this->db->query($sql);
+        return true;
+    }
+
+    public function images($id)
+    {
+        if (!$id){
+            return false;
+        }
+        $sql = 'SELECT * FROM memorial_image WHERE memorial_id='. $id;
+        $query = $this->db->query($sql);
+        $ret = $query->result_array();
+        return $ret;
+    }
+
+    public function image_delete($id)
+    {
+        if (!$id){
+            return false;
+        }
+        $sql = 'DELETE FROM memorial_image WHERE id IN ('. $id. ')';
         $this->db->query($sql);
         return true;
     }

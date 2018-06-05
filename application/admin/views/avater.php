@@ -86,7 +86,7 @@
 
             var $image = $(".image-crop > img")
             $($image).cropper({
-                aspectRatio: 1,
+                aspectRatio: <?php echo empty($ratio) ? 1:$ratio; ?>,
                 preview: ".img-preview",
                 done: function (data) {
                     // 输出结果

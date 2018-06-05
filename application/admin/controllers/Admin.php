@@ -76,31 +76,33 @@ class Admin extends Common {
 
     public function mod()
     {
-        if (!$_GET['id']){
-            show_error('ID不能为空','-1');
-        }
-        $id = intval($_GET['id']);
-        if (isset($_POST)&&$_POST){
-            $params = array();
-            if (!empty($_POST['username'])){
-                $params['username'] = $_POST['username'];
-            }
-            if (!empty($_POST['password'])){
-                $params['password'] = md5($_POST['password']);
-            }
-            if (!empty($_POST['email'])){
-                $params['email'] = $_POST['email'];
-            }
-            if (!empty($_POST['mobile'])){
-                $params['mobile'] = $_POST['mobile'];
-            }
-            $this->admin_model->mod($id,$params);
-            redirect(site_url('admin/index'));
-        }
         $data = array(
             'title' => '编辑管理员',
             'action' => 'mod',
         );
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空','-1');
+        }
+        $data['id'] = $id;
+        if (isset($_POST)&&$_POST){
+            $params = array();
+            $username = $_POST['username'];
+            if(!$username){
+                show_error('用户名不能为空','-2');
+            }
+            if($this->admin_model->username_unique($username,$id)){
+                show_error('用户名已存在','-3');
+            }
+            $params['username'] = $username;
+            if (!empty($_POST['password'])){
+                $params['password'] = md5($_POST['password']);
+            }
+            $params['email'] = $_POST['email'];
+            $params['mobile'] = $_POST['mobile'];
+            $this->admin_model->mod($id,$params);
+            redirect(site_url('admin/index'));
+        }
         $data['admin'] = $this->admin_model->detail($id);
         $this->load->view('admin_form',$data);
     }
@@ -145,5 +147,20 @@ class Admin extends Common {
         $data['id'] = $id;
         $data['module'] = 'admin';
         $this->load->view('avater', $data);
+    }
+
+    public function checkUsername()
+    {
+        $username = $_POST['username'];
+        if(!empty($_POST['id'])){
+            $id = intval($_POST['id']);
+        }else{
+            $id = 0;
+        }
+        if($username && $this->admin_model->username_unique($username,$id)){
+            echo 'false';
+        }else{
+            echo 'true';
+        }
     }
 }

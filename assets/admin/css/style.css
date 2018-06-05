@@ -7892,3 +7892,7 @@ body.skin-3 {
 }
 
 .pagination { margin: 0;}
+
+.memorial_image .item { display: inline-block; width: 80px;}
+.memorial_image .item a { display: block; margin: 2px auto 5px; text-align: center;}
+

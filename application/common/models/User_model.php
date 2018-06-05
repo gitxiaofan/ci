@@ -54,9 +54,12 @@ class User_model extends CI_Model
         return $this->db->query($sql);
     }
 
-    public function mobile_unique($mobile)
+    public function mobile_unique($mobile,$id=0)
     {
         $sql = 'SELECT * FROM user WHERE mobile="'. $mobile. '"';
+        if($id){
+            $sql .= ' AND user_id !='. $id;
+        }
         $query = $this->db->query($sql);
         return $query->result_array();
     }

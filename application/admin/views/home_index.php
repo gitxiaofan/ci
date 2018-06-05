@@ -89,16 +89,37 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="<?php echo site_url('memorial/index'); ?>"><i class="fa fa-columns"></i> <span class="nav-label">纪念馆管理</span></a>
+                        <a href="#">
+                            <i class="fa fa-university"></i>
+                            <span class="nav-label">纪念馆</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('memorial/index'); ?>">所有纪念馆</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('memorial/add'); ?>">添加纪念馆</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="<?php echo site_url('sacrifice/index'); ?>"><i class="fa fa-columns"></i> <span class="nav-label">祭品管理</span></a>
+                        <a href="#">
+                            <i class="fa fa-tachometer"></i>
+                            <span class="nav-label">祭品</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/index'); ?>">所有祭品</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/add'); ?>">添加祭品</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="<?php echo site_url('comment/index'); ?>"><i class="fa fa-columns"></i> <span class="nav-label">追思管理</span></a>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="<?php echo site_url('ad/index'); ?>"><i class="fa fa-columns"></i> <span class="nav-label">广告管理</span></a>
+                        <a class="J_menuItem" href="<?php echo site_url('comment/index'); ?>"><i class="fa fa-commenting"></i> <span class="nav-label">追思</span></a>
                     </li>
                     <li>
                         <a href="#">
@@ -109,6 +130,9 @@
                         <ul class="nav nav-second-level">
                             <li>
                                 <a class="J_menuItem" href="<?php echo site_url('ad/index'); ?>">所有广告</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('ad/add'); ?>">添加广告</a>
                             </li>
                             <li>
                                 <a class="J_menuItem" href="<?php echo site_url('ad/cat'); ?>">广告分类</a>

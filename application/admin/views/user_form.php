@@ -7,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>H+ 后台主题UI框架 - 表单验证 jQuery Validation</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <title>编辑用户 - 追思网</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
@@ -27,25 +25,13 @@
                 <div class="ibox-title">
                     <h5>添加/编辑用户</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="form_basic.html#">选项1</a>
-                            </li>
-                            <li><a href="form_basic.html#">选项2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
+                        <a href="<?php echo site_url('user/index')?>">
+                            <i class="fa fa-reply"></i> 返回上一页
                         </a>
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="admin_<?php echo $action; ?>" method="post">
+                    <form class="form-horizontal m-t" id="user_<?php echo $action; ?>" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">手机：</label>
                             <div class="col-sm-8">
@@ -57,6 +43,7 @@
                             <label class="col-sm-3 control-label">密码：</label>
                             <div class="col-sm-8">
                                 <input id="password" name="password" class="form-control" type="password">
+                                <?php if($action == 'mod'):?><span class="help-block m-b-none"><i class="fa fa-info-circle"></i>留空表示不修改密码</span><?php endif; ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -109,7 +96,7 @@
 <script>
     $().ready(function(){
         var icon = "<i class='fa fa-times-circle'></i> ";
-        $('#admin_add').validate({
+        $('#user_add').validate({
             rules: {
                 nickname: {
                     required: true,
@@ -162,11 +149,11 @@
                     number: icon + "请输入正确格式的手机号码",
                     required: icon + "请输入您的手机号",
                     remote : icon + "此手机号已被注册"
-                },
+                }
             }
         });
 
-        $('#admin_mod').validate({
+        $('#user_mod').validate({
             rules: {
                 nickname: {
                     required: true,
@@ -184,7 +171,18 @@
                 },
                 mobile: {
                     number: true,
-                    maxlength: 20
+                    maxlength: 20,
+                    remote: {
+                        url: "<?php echo site_url('user/checkMobile');?>",
+                        type: "post",
+                        dataType: "json",
+                        cache: false,
+                        async: false,
+                        data:{
+                            mobile: function(){ return $("#mobile").val(); },
+                            id : "<?php echo empty($id) ? 0 : $id?>"
+                        }
+                    }
                 }
             },
             messages: {
@@ -200,7 +198,11 @@
                     equalTo: icon + "两次输入的密码不一致"
                 },
                 email: icon + "请输入正确格式的E-mail",
-                mobile: icon + "请输入正确格式的手机号码"
+                mobile: {
+                    number: icon + "请输入正确格式的手机号码",
+                    required: icon + "请输入您的手机号",
+                    remote : icon + "此手机号已被注册"
+                }
             }
         });
     });

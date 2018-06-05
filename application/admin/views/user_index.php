@@ -26,11 +26,8 @@
                 <div class="ibox-title">
                     <h5>用户</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
+                        <a href="<?php echo site_url('user/index')?>">
+                            <i class="fa fa-refresh"></i> 刷新列表
                         </a>
                     </div>
                 </div>
