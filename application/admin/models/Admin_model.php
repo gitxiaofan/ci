@@ -53,4 +53,11 @@ class Admin_model extends CI_Model
         $sql = 'DELETE FROM admin WHERE admin_id IN ('. $id. ')';
         return $this->db->query($sql);
     }
+
+    public function username_unique($username)
+    {
+        $sql = 'SELECT * FROM admin WHERE username="'. $username. '"';
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 }

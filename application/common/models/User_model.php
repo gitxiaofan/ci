@@ -53,4 +53,11 @@ class User_model extends CI_Model
         $sql = 'DELETE FROM user WHERE user_id IN ('. $id. ')';
         return $this->db->query($sql);
     }
+
+    public function mobile_unique($mobile)
+    {
+        $sql = 'SELECT * FROM user WHERE mobile="'. $mobile. '"';
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 }

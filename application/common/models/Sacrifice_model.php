@@ -1,6 +1,6 @@
 <?php
 
-class Ad_model extends CI_Model
+class Sacrifice_model extends CI_Model
 {
     public function __construct()
     {
@@ -13,7 +13,7 @@ class Ad_model extends CI_Model
             return false;
         }
         $data['ctime'] = time();
-        $sql = 'INSERT INTO ad SET ';
+        $sql = 'INSERT INTO sacrifice SET ';
         foreach ($data as $k => $val){
             $sql .= " $k = '$val',";
         }
@@ -26,7 +26,7 @@ class Ad_model extends CI_Model
         if (!$id || !$data){
             return false;
         }
-        $sql = 'UPDATE ad SET ';
+        $sql = 'UPDATE sacrifice SET ';
         foreach ($data as $k => $val){
             $sql .= " $k = '$val',";
         }
@@ -40,7 +40,7 @@ class Ad_model extends CI_Model
         if (!$id){
             return false;
         }
-        $sql = 'SELECT * FROM ad WHERE id = '. $id;
+        $sql = 'SELECT * FROM sacrifice WHERE id = '. $id;
         $query = $this->db->query($sql);
         $ret = $query->result_array();
         return $ret[0];
@@ -51,17 +51,7 @@ class Ad_model extends CI_Model
         if (!$id){
             return false;
         }
-        $sql = 'DELETE FROM ad WHERE id IN ('. $id. ')';
+        $sql = 'DELETE FROM sacrifice WHERE id IN ('. $id. ')';
         return $this->db->query($sql);
-    }
-
-    public function adcat()
-    {
-        $sql = 'SELECT id,name FROM ad_cat';
-        $query = $this->db->query($sql);
-        foreach($query->result_array() as $row){
-            $ret[$row['id']] = $row['name'];
-        }
-        return $ret;
     }
 }

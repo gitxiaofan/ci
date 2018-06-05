@@ -129,13 +129,16 @@
                 },
                 mobile: {
                     number: true,
+                    required: true,
                     maxlength: 20,
                     remote: {
                         url: "<?php echo site_url('user/checkMobile');?>",
                         type: "post",
                         dataType: "json",
+                        cache: false,
+                        async: false,
                         data:{
-                            mobile:function(){ return $("#mobile").val(); }
+                            mobile: function(){ return $("#mobile").val(); }
                         }
                     }
                 }
@@ -155,8 +158,11 @@
                     equalTo: icon + "两次输入的密码不一致"
                 },
                 email: icon + "请输入正确格式的E-mail",
-                mobile: icon + "请输入正确格式的手机号码",
-                remote : icon + "此手机号已被注册"
+                mobile: {
+                    number: icon + "请输入正确格式的手机号码",
+                    required: icon + "请输入您的手机号",
+                    remote : icon + "此手机号已被注册"
+                },
             }
         });
 

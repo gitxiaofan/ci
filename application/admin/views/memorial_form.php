@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="admin_<?php echo $action; ?>" method="post">
+                    <form class="form-horizontal m-t" id="add" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">纪念人姓名：</label>
                             <div class="col-sm-8">
@@ -55,15 +55,21 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">简介：</label>
+                            <div class="col-sm-8">
+                                <textarea id="brief" name="brief" class="form-control" rows="3"><?php echo empty($memorial['brief']) ? '':$memorial['brief']; ?></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">生日：</label>
                             <div class="col-sm-8">
-                                <input id="birthday" name="birthday" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">忌日：</label>
                             <div class="col-sm-8">
-                                <input id="death" name="death" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
                             </div>
                         </div>
                         <div class="form-group">
@@ -76,10 +82,10 @@
                             <label class="col-sm-3 control-label">是否突出显示：</label>
                             <div class="col-sm-8">
                                 <label class="radio-inline">
-                                    <input type="radio" name="is_strong" value="1"> 是
+                                    <input type="radio" name="is_strong" value="1" <?php echo isset($memorial['is_strong']) ? ($memorial['is_strong'] == 1 ? 'checked':''):''?>> 是
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="is_strong" value="0"> 否
+                                    <input type="radio" name="is_strong" value="0" <?php echo isset($memorial['is_strong']) ? ($memorial['is_strong'] == 0 ? 'checked':''):''?>> 否
                                 </label>
                             </div>
                         </div>
@@ -87,10 +93,10 @@
                             <label class="col-sm-3 control-label">是否置顶：</label>
                             <div class="col-sm-8">
                                 <label class="radio-inline">
-                                    <input type="radio" name="stick" value="1"> 是
+                                    <input type="radio" name="stick" value="1" <?php echo isset($memorial['stick']) ? ($memorial['stick'] == 1 ? 'checked':''):''?>> 是
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="stick" value="0"> 否
+                                    <input type="radio" name="stick" value="0" <?php echo isset($memorial['stick']) ? ($memorial['stick'] == 0 ? 'checked':''):''?>> 否
                                 </label>
                             </div>
                         </div>
@@ -98,7 +104,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">纪事：</label>
                             <div class="col-sm-8">
-                                <textarea name="content" id="editor" placeholder="这里输入内容"></textarea>
+                                <textarea name="content" id="editor" placeholder="这里输入内容"><?php echo empty($memorial['content']) ? '':$memorial['content']?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -131,7 +137,7 @@
 <script>
     $().ready(function(){
         var icon = "<i class='fa fa-times-circle'></i> ";
-        $('#admin_add').validate({
+        $('#add').validate({
             rules: {
                 name: {
                     required: true,
@@ -143,6 +149,7 @@
                     required: icon + "请输入您的姓名/昵称",
                     minlength: icon + "姓名/昵称必须两个字符以上"
                 }
+            }
         });
 
     });

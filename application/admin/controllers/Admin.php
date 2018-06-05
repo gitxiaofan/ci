@@ -14,14 +14,38 @@ class Admin extends Common {
      */
     public function index()
     {
-        $sql = 'SELECT * FROM admin';
-        if ($query = $this->db->query($sql)){
-            $data = array(
-                'admins' => $query->result_array(),
-                'title' => '管理员管理',
-            );
+        $data = array(
+            'title' => '管理员',
+        );
+        $per_page = 20;
+        $limit = (intval(isset($_GET['per_page']) ? $_GET['per_page'] : 1) - 1) * $per_page;
+        $sql = 'SELECT * FROM admin WHERE 1 '. $this->condition(). ' ORDER BY admin_id DESC LIMIT '. $limit. ','. $per_page;
+        $query = $this->db->query($sql);
+        $admins = array();
+        foreach($query->result_array() as $row){
+            $row['ctime'] = date('Y-m-d H:i:s', $row['ctime']);
+            $admins[] = $row;
         }
+        $data['admins'] = $admins;
+        $data['pagination'] = $this->page(site_url('admin/index'),$this->count(),$per_page);
         $this->load->view('admin_index',$data);
+    }
+
+    public function condition()
+    {
+        $condition = '';
+        if(!empty($_GET['k'])){
+            $condition .= 'AND username LIKE "%'.$_GET['k'].'%" ';
+        }
+        return $condition;
+    }
+
+    public function count()
+    {
+        $sql = 'SELECT count(*) count FROM admin WHERE 1 '. $this->condition();
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res[0]['count'];
     }
 
     public function add()
@@ -34,6 +58,9 @@ class Admin extends Common {
             if (empty($_POST['username']) || empty($_POST['password'])){
                 $data['error'] = array('errorno' => '-1', 'errormessage' => '用户名或密码不能为空！');
                 $this->load->view('admin_form',$data);
+            }
+            if($this->admin_model->username_unique($_POST['username'])){
+                show_error('用户名已存在','-2');
             }
             $params = array();
             $params['username'] = $_POST['username'];
@@ -93,6 +120,30 @@ class Admin extends Common {
         $data = array(
             'title' => '修改用户头像',
         );
+        if(isset($_POST) && $_POST){
+            if(!$id = $_POST['id']){
+                show_error('id不能为空','-1');
+            }
+            if(!$img = $_POST['img']){
+                show_error('图片不能为空','-2');
+            }
+            if(!$avater = $this->upload_img64($img,'avater')){
+                show_error('上传失败','-3');
+            }
+            $sql = 'UPDATE admin SET avater="'. $avater. '" WHERE admin_id='. $id;
+            if($this->db->query($sql)){
+                $res = array('status'=>1,'message'=>'上传成功');
+            }else{
+                $res = array('status'=>0,'message'=>'上传失败');
+            }
+            echo json_encode($res);
+            exit;
+        }
+        if(!$id = $_GET['id']){
+            show_error('id不能为空','0');
+        }
+        $data['id'] = $id;
+        $data['module'] = 'admin';
         $this->load->view('avater', $data);
     }
 }
