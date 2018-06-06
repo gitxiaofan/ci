@@ -139,6 +139,21 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-cog"></i>
+                            <span class="nav-label">设置</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('settings/index'); ?>">常规设置</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('settings/send'); ?>">邮件/短信发送</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>
