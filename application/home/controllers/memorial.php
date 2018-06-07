@@ -34,4 +34,21 @@ class memorial extends Common {
         $data['images'] = $this->memorial_model->images($id);
         $this->view('memorial_detail',$data);
     }
+
+    public function butch_add()
+    {
+        for($i=1;$i<50;$i++){
+            $data = array(
+                'name'=> '测试'.$i,
+                'content' => '测试内容测试内容'
+            );
+            $this->memorial_model->add($data);
+        }
+    }
+
+    public function butch_delete()
+    {
+        $sql = 'DELETE FROM memorial_content WHERE content = "测试内容测试内容"';
+        $this->db->query($sql);
+    }
 }

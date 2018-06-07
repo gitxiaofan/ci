@@ -4721,7 +4721,12 @@ body.modal-open {
 /* SEARCH PAGE */
 
 .search-form {
-    margin-top: 10px;
+    margin-top: 15px;
+}
+
+.search-form input {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 .search-result h3 {
