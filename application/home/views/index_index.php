@@ -1,61 +1,99 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title><?php echo $settings['sitename']. '_'. $settings['sitesubtitle']?></title>
     <meta name="keywords" content="<?php echo $settings['sitekeyword']?>">
     <meta name="description" content="<?php echo $settings['sitedescription']?>">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <link rel="stylesheet" href="<?php echo base_url() ?>/assets/home/css/light7.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>/assets/home/css/light7-swiper.min.css">
+    <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
 
-    <!--<link rel="stylesheet" href="<?php echo base_url() ?>/assets/home/css/style.css">-->
+    <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
+
+
 </head>
-<body>
+
+<body class="main-bg">
 <?php
-print_r($data);
+//print_r($data);
 ?>
-<div class="page">
-    <header class="bar bar-nav">
-        <a class="button button-link button-nav pull-left" href="/demos/card" data-transition='slide-out'>
-            <span class="icon icon-left"></span>
-            返回
-        </a>
-        <h1 class="title">我的生活</h1>
-    </header>
-    <nav class="bar bar-tab">
-        <a class="tab-item active" href="#">
-            <span class="icon icon-home"></span>
-            <span class="tab-label">首页</span>
-        </a>
-        <a class="tab-item" href="#">
-            <span class="icon icon-me"></span>
-            <span class="tab-label">我</span>
-        </a>
-        <a class="tab-item" href="#">
-            <span class="icon icon-star"></span>
-            <span class="tab-label">收藏</span>
-        </a>
-        <a class="tab-item" href="#">
-            <span class="icon icon-settings"></span>
-            <span class="tab-label">设置</span>
-        </a>
-    </nav>
-    <div class="content">
-        <!-- 这里是页面内容区 -->
+<div class="menu">
+    <div class="gohome"><a class="animated bounceInUp" href="" title="返回首页"><i class="fa fa-bars"></i></a></div>
+</div>
+<div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <?php foreach($data['sliders'] as $k => $slider): ?>
+        <div class="item <?php echo $k == 0 ? 'active':'' ?>">
+            <a href="<?php echo $slider['link']?>"><img src="<?php echo $slider['pic']?>" alt="<?php echo $slider['title']?>"></a>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <?php for($i=0;$i<=$k;$i++):?>
+        <li data-target="#slider" data-slide-to="<?php echo $i;?>" class="<?php echo $i==0 ? 'active':''?>"></li>
+        <?php endfor; ?>
+    </ol>
+</div>
+<div class="home-search">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="search-form">
+                    <form action="" method="get">
+                        <div class="input-group">
+                            <input type="text" name="k" class="form-control" placeholder="请输入纪念人姓名" value="<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary">搜索</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<div class="home-list">
+    <div class="container">
+        <div class="row">
+            <?php if($data['memorials']): ?>
+            <?php foreach($data['memorials'] as $memorail): ?>
+            <div class="col-xs-3">
+                <div class="item">
+                    <a href="<?php echo site_url('memorial/detail').'?id='. $memorail['id']; ?>">
+                        <span class="name <?php echo $memorail['is_strong'] == 1 ? 'strong':''?>"><?php echo $memorail['name']?></span>
+                    </a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <div class="col-xs-12">
+                <div class="item">
+                    <span class="name">没有Ta的纪念馆？请注册，然后为Ta<a class="strong" href="#" >创建</a>。</span>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
-<script type='text/javascript' src='<?php echo base_url() ?>/assets/home/js/jquery.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='<?php echo base_url() ?>/assets/home/js/light7.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='<?php echo base_url() ?>/assets/home/js/light7-swiper.min.js' charset='utf-8'></script>
+<!-- 全局js -->
+<script src="<?php echo base_url() ?>/assets/home/js/jquery.min.js?v=2.1.4"></script>
+<script src="<?php echo base_url() ?>/assets/home/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="<?php echo base_url() ?>/assets/home/js/plugins/layer/layer.min.js"></script>
 
-<!--<script src="<?php echo base_url() ?>/assets/home/custom.js"></script>-->
+<!-- 自定义js -->
+<script src="<?php echo base_url() ?>/assets/home/js/content.js"></script>
+
+
 </body>
+
 </html>

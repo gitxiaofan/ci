@@ -15,7 +15,7 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
 
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="<?php echo base_url() ?>/assets/admin/favicon.ico">
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/animate.css" rel="stylesheet">
@@ -60,16 +60,52 @@
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-user"></i>
-                            <span class="nav-label">管理员</span>
+                            <i class="fa fa-university"></i>
+                            <span class="nav-label">纪念馆</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="<?php echo site_url('admin/index'); ?>">所有管理员</a>
+                                <a class="J_menuItem" href="<?php echo site_url('memorial/index'); ?>">所有纪念馆</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="<?php echo site_url('admin/add'); ?>">添加管理员</a>
+                                <a class="J_menuItem" href="<?php echo site_url('memorial/add'); ?>">添加纪念馆</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="<?php echo site_url('comment/index'); ?>"><i class="fa fa-commenting"></i> <span class="nav-label">追思</span></a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-tachometer"></i>
+                            <span class="nav-label">祭品</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/index'); ?>">所有祭品</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/add'); ?>">添加祭品</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-bar-chart-o"></i>
+                            <span class="nav-label">广告</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('ad/index'); ?>">所有广告</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('ad/add'); ?>">添加广告</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('ad/cat'); ?>">广告分类</a>
                             </li>
                         </ul>
                     </li>
@@ -90,52 +126,16 @@
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-university"></i>
-                            <span class="nav-label">纪念馆</span>
+                            <i class="fa fa-user"></i>
+                            <span class="nav-label">管理员</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="<?php echo site_url('memorial/index'); ?>">所有纪念馆</a>
+                                <a class="J_menuItem" href="<?php echo site_url('admin/index'); ?>">所有管理员</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="<?php echo site_url('memorial/add'); ?>">添加纪念馆</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-tachometer"></i>
-                            <span class="nav-label">祭品</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/index'); ?>">所有祭品</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="<?php echo site_url('sacrifice/add'); ?>">添加祭品</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="J_menuItem" href="<?php echo site_url('comment/index'); ?>"><i class="fa fa-commenting"></i> <span class="nav-label">追思</span></a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa fa-bar-chart-o"></i>
-                            <span class="nav-label">广告</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="<?php echo site_url('ad/index'); ?>">所有广告</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="<?php echo site_url('ad/add'); ?>">添加广告</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="<?php echo site_url('ad/cat'); ?>">广告分类</a>
+                                <a class="J_menuItem" href="<?php echo site_url('admin/add'); ?>">添加管理员</a>
                             </li>
                         </ul>
                     </li>
@@ -171,7 +171,7 @@
                 </button>
                 <nav class="page-tabs J_menuTabs">
                     <div class="page-tabs-content">
-                        <a href="javascript:;" class="active J_menuTab" data-id="index_v1.html">首页</a>
+                        <a href="javascript:;" class="active J_menuTab" data-id="<?php echo site_url('home/show'); ?>">仪表盘</a>
                     </div>
                 </nav>
                 <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>

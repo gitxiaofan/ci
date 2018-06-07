@@ -28,11 +28,8 @@
                     <div class="ibox-title  back-change">
                         <h5>修改头像</h5>
                         <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
+                            <a href="javascript:history.back(-1)">
+                                <i class="fa fa-reply"></i> 返回上一页
                             </a>
                         </div>
                     </div>
