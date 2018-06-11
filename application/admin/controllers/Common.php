@@ -20,7 +20,7 @@ class Common extends CI_Controller {
     public function do_upload($file,$dir)
     {
         $config['upload_path']      = './uploads/'.$dir;
-        $config['allowed_types']    = 'gif|jpg|png';
+        $config['allowed_types']    = 'gif|jpg|png|jpeg';
         $config['file_name'] = time().mt_rand(100,999);
 
         $this->load->library('upload', $config);
@@ -96,6 +96,17 @@ class Common extends CI_Controller {
 
         $this->pagination->initialize($config);
         return $this->pagination->create_links();
+    }
+
+    public function input($name)
+    {
+        if($_GET[$name]){
+            return $_GET[$name];
+        }elseif($_POST[$name]){
+            return $_POST[$name];
+        }else{
+            return '';
+        }
     }
 
 }

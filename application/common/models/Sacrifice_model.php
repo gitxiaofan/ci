@@ -54,4 +54,9 @@ class Sacrifice_model extends CI_Model
         $sql = 'DELETE FROM sacrifice WHERE id IN ('. $id. ')';
         return $this->db->query($sql);
     }
+
+    public function info_list()
+    {
+
+    }
 }

@@ -130,4 +130,15 @@ class Common extends CI_Controller {
         return $this->pagination->create_links();
     }
 
+    public function input($name)
+    {
+        if($_GET[$name]){
+            return $_GET[$name];
+        }elseif($_POST[$name]){
+            return $_POST[$name];
+        }else{
+            return '';
+        }
+    }
+
 }

@@ -1,7 +1,8 @@
 <?php
 //var_dump($data);
-$memorial= $data['memorial'];
+$memorial = $data['memorial'];
 $images = $data['images'];
+$sacrifices = $data['sacrifices'];
 ?>
 
 <!DOCTYPE html>
@@ -49,17 +50,25 @@ $images = $data['images'];
     </ol>
 </div>
 
-<div class="detail">
+<div class="sacrifice">
     <div class="container">
-        <div class="title">
-            <?php echo htmlspecialchars_decode($memorial['name']); ?>
-        </div>
-        <div class="time">
-            <?php echo $memorial['birthday']. ' - '. $memorial['death']?>
-        </div>
-        <div class="brief">
-            <?php echo htmlspecialchars_decode($memorial['brief']); ?>
-        </div>
+        <form method="post" action="">
+            <?php foreach ($sacrifices as $sacrifice):?>
+            <div class="col-xs-4">
+                <div class="img">
+                    <img class="img-responsive img-rounded" src="<?php echo base_url().$sacrifice['pic']?>" alt="<?php echo $sacrifice['name']?>" />
+                </div>
+                <div class="put">
+                    <input type="checkbox" class="" name="sacrifice[]" value="<?php echo $sacrifice['id'];?>">
+                </div>
+            </div>
+            <?php endforeach;?>
+            <div class="clearfix"></div>
+            <div class="submit">
+                <input type="hidden" name="id" value="<?php echo $memorial['id']?>">
+                <input type="submit" class="btn btn-primary" value="献礼">
+            </div>
+        </form>
     </div>
 </div>
 
@@ -67,7 +76,7 @@ $images = $data['images'];
     <div class="container">
         <div class="row">
             <nav class="bar">
-                <a class="bar-item active" href="<?php echo site_url('memorial/detail'). '?id='. $memorial['id']?>">
+                <a class="bar-item" href="<?php echo site_url('memorial/detail'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-university"></i></span>
                     <span class="bar-label">主页</span>
                 </a>
@@ -75,7 +84,7 @@ $images = $data['images'];
                     <span class="bar-icon"><i class="fa fa-user"></i></span>
                     <span class="bar-label">纪事</span>
                 </a>
-                <a class="bar-item" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
+                <a class="bar-item active" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>

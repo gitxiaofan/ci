@@ -1,6 +1,6 @@
 <?php
 //var_dump($data);
-$memorial= $data['memorial'];
+$memorial = $data['memorial'];
 $images = $data['images'];
 ?>
 
@@ -49,7 +49,7 @@ $images = $data['images'];
     </ol>
 </div>
 
-<div class="detail">
+<div class="content">
     <div class="container">
         <div class="title">
             <?php echo htmlspecialchars_decode($memorial['name']); ?>
@@ -57,8 +57,8 @@ $images = $data['images'];
         <div class="time">
             <?php echo $memorial['birthday']. ' - '. $memorial['death']?>
         </div>
-        <div class="brief">
-            <?php echo htmlspecialchars_decode($memorial['brief']); ?>
+        <div class="info">
+            <?php echo htmlspecialchars_decode($memorial['content']); ?>
         </div>
     </div>
 </div>
@@ -67,11 +67,11 @@ $images = $data['images'];
     <div class="container">
         <div class="row">
             <nav class="bar">
-                <a class="bar-item active" href="<?php echo site_url('memorial/detail'). '?id='. $memorial['id']?>">
+                <a class="bar-item" href="<?php echo site_url('memorial/detail'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-university"></i></span>
                     <span class="bar-label">主页</span>
                 </a>
-                <a class="bar-item" href="<?php echo site_url('memorial/content'). '?id='. $memorial['id']?>">
+                <a class="bar-item active" href="<?php echo site_url('memorial/content'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-user"></i></span>
                     <span class="bar-label">纪事</span>
                 </a>
