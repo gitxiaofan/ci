@@ -55,8 +55,4 @@ class Sacrifice_model extends CI_Model
         return $this->db->query($sql);
     }
 
-    public function info_list()
-    {
-
-    }
 }

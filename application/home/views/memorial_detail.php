@@ -79,7 +79,7 @@ $images = $data['images'];
                     <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>
-                <a class="bar-item" href="#">
+                <a class="bar-item" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-commenting"></i></span>
                     <span class="bar-label">追思</span>
                 </a>

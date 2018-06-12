@@ -7913,27 +7913,37 @@ body.skin-3 {
 .home-list { margin-top: 15px;}
 .home-list .item { text-align: center; margin-bottom: 10px;}
 .home-list .item .name { color: #fff; font-size: 16px; line-height: 30px; }
-.home-list .item .strong { font-weight: 700; font-size: 20px; color: #FF6100; }
+.home-list .item .strong { font-weight: 700; font-size: 20px; color: #CFAD17; }
 .carousel .item img { width: 100%; }
 
 .detail { padding: 10px 0 50px;}
-.detail .title { color: #FF6100; font-size: 18px; text-align: center;}
-.detail .time { color: #FF6100; font-size: 14px; margin-bottom: 10px; text-align: center;}
-.detail .brief { color: #FF6100; font-size: 14px;}
+.detail .title { color: #CFAD17; font-size: 18px; text-align: center;}
+.detail .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px; text-align: center;}
+.detail .brief { color: #CFAD17; font-size: 14px;}
 
 .content { padding: 10px 0 50px;}
-.content .title { color: #FF6100; font-size: 18px;}
-.content .time { color: #FF6100; font-size: 14px; margin-bottom: 10px;}
-.content .info { color: #FF6100; font-size: 14px;}
+.content .title { color: #CFAD17; font-size: 18px;}
+.content .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}
+.content .info { color: #CFAD17; font-size: 14px;}
 .content .info img { max-width: 100%;}
 
 .sacrifice { padding: 10px 0 50px;}
-.sacrifice .img { padding: 10px;}
-.sacrifice .put { text-align: center; }
-.sacrifice .submit { margin: 20px 0; text-align: center;}
+.sacrifice .sacrifice-list .img { padding: 10px;}
+.sacrifice .sacrifice-list .put { text-align: center; }
+.sacrifice .sacrifice-list .submit { margin: 20px 0; text-align: center;}
+.gift-list ul li { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}
+.gift-list ul li .time { padding-right: 5px;}
+.gift-list ul li .author { padding-right: 5px;}
+
+.comment { padding: 10px 0 50px;}
+.comment textarea { background-color: transparent; border-radius: 5px; color: #CFAD17;}
+.comment .submit { margin: 20px 0; text-align: center;}
+
+.comment-list ul li { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}
+.comment-list ul li .time { padding-right: 5px;}
 
 .detail-menu { position: fixed; bottom: 0; width: 100%; background-color: #000; padding: 5px 0;}
 .bar { position: relative;}
 .bar .bar-item { width: 25%; float: left; text-align: center;}
 .bar .bar-item span { display: block; font-size: 14px; color: #ccc; }
-.bar .active span { color: #FF6100;}
+.bar .active span { color: #CFAD17;}

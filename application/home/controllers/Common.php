@@ -11,7 +11,7 @@ class Common extends CI_Controller {
         //$this->checklogin();
     }
 
-    public function view($tpl,$data)
+    public function view($tpl,$data=array())
     {
         $outdata['settings'] = $this->settings;
         $outdata['data'] = $data;

@@ -2,8 +2,7 @@
 //var_dump($data);
 $memorial = $data['memorial'];
 $images = $data['images'];
-$sacrifices = $data['sacrifices'];
-$gifts = $data['gifts'];
+$comments = $data['comments'];
 ?>
 
 <!DOCTYPE html>
@@ -51,33 +50,29 @@ $gifts = $data['gifts'];
     </ol>
 </div>
 
-<div class="sacrifice">
-    <div class="sacrifice-list">
-        <div class="container">
-            <form method="post" action="">
-                <?php foreach ($sacrifices as $sacrifice):?>
-                    <div class="col-xs-4">
-                        <div class="img">
-                            <img class="img-responsive img-rounded" src="<?php echo base_url().$sacrifice['pic']?>" alt="<?php echo $sacrifice['name']?>" />
-                        </div>
-                        <div class="put">
-                            <input type="checkbox" class="" name="sacrifice[]" value="<?php echo $sacrifice['id'];?>">
-                        </div>
-                    </div>
-                <?php endforeach;?>
-                <div class="clearfix"></div>
-                <div class="submit">
-                    <input type="hidden" name="id" value="<?php echo $memorial['id']?>">
-                    <input type="submit" class="btn btn-primary" value="献礼">
-                </div>
-            </form>
-        </div>
+<div class="comment">
+    <div class="container">
+        <form action="" method="post">
+            <textarea name="content" class="form-control" rows="3" placeholder="追思留言，300字以内"></textarea>
+            <div class="submit">
+                <input type="hidden" name="id" value="<?php echo $memorial['id']?>">
+                <input type="submit" class="btn btn-primary" value="发布">
+            </div>
+        </form>
     </div>
-    <div class="gift-list">
+    <div class="comment-list">
         <div class="container">
             <ul class="list-unstyled">
-                <?php foreach ($gifts as $gift):?>
-                    <li><span class="time"><?php echo date('Y-m-d',$gift['ctime'])?></span><span class="author"><?php echo $gift['nickname']?></span>献<?php echo $gift['sacrifice_name']?></li>
+                <?php foreach ($comments as $comment):?>
+                    <li>
+                        <div class="title">
+                            <span class="time"><?php echo date('Y-m-d',$comment['ctime']);?></span>
+                            <span class="author"><?php echo $comment['nickname'] ?>:</span>
+                        </div>
+                        <div class="comment-content">
+                            <?php echo $comment['content']?>
+                        </div>
+                    </li>
                 <?php endforeach;?>
             </ul>
         </div>
@@ -96,11 +91,11 @@ $gifts = $data['gifts'];
                     <span class="bar-icon"><i class="fa fa-user"></i></span>
                     <span class="bar-label">纪事</span>
                 </a>
-                <a class="bar-item active" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
+                <a class="bar-item" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>
-                <a class="bar-item" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">
+                <a class="bar-item active" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">
                     <span class="bar-icon"><i class="fa fa-commenting"></i></span>
                     <span class="bar-label">追思</span>
                 </a>
