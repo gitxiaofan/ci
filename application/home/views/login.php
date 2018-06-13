@@ -40,11 +40,14 @@
                 <input name="password" type="password" class="form-control" placeholder="密码" required="">
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            <p class="text-muted text-center">
+                <a href="login.html#"><small>忘记密码了？</small></a> | <a href="<?php echo site_url('login/reg')?>">注册一个新账号</a>
+            </p>
         </form>
-        <?php if(!empty($error)):?>
+        <?php if(!empty($data['error']['status']) && $data['error']['status'] < 0):?>
             <div class="alert alert-danger alert-dismissable">
                 <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <?php echo $error['message']; ?>
+                <?php echo $data['error']['message']; ?>
             </div>
         <?php endif; ?>
     </div>

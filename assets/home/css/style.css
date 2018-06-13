@@ -7947,3 +7947,16 @@ body.skin-3 {
 .bar .bar-item { width: 25%; float: left; text-align: center;}
 .bar .bar-item span { display: block; font-size: 14px; color: #ccc; }
 .bar .active span { color: #CFAD17;}
+
+#mobile-menu {position:fixed;top:0;left:0;width:130px;height:100%;background-color:#3c3c44;z-index:9999;}
+a:hover ,a:focus{text-decoration:none}
+.mobile-nav ul li a {color:#fff;display:block;padding:1em 12%; border-bottom:1px solid #555560;transition:all 0.2s ease-out;cursor:pointer;}
+.mobile-nav ul li.login a { display: inline-block !important; border-bottom: none !important;}
+.mobile-nav ul li.login { border-bottom:1px solid #555560;}
+.mobile-nav ul li a:hover {background-color: #474750;color: #ffffff;}
+.show-nav {transform:translateX(0);}
+.hide-nav {transform:translateX(-130px);} /*侧滑关键*/
+.mobile-nav-taggle {height:35px;line-height:35px;width:35px;background-color:#3c3c44;color:#ffffff;display:inline-block;text-align:center;cursor:pointer; border-radius: 50%;}
+.mobile-nav-taggle:visited,.mobile-nav-taggle:hover { color: #fff;}
+.nav.avbar-inverse{position:relative;}
+.nav-btn {position:fixed;right:20px;top:20px; z-index: 999;}

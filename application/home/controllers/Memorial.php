@@ -67,8 +67,9 @@ class memorial extends Common {
             show_error('ID不能为空','-1');
         }
         if(isset($_POST) && !empty($_POST['sacrifice'])){
+            $this->checklogin();
             $memorial_id = intval($_POST['id']);
-            $user_id = 9;
+            $user_id = $_SESSION['user']['user_id'];
             $time = time();
             $sql = 'INSERT INTO sacrifice_info(user_id,sacrifice_id,memorial_id,ctime) VALUES';
             foreach($_POST['sacrifice'] as $sacrifice){
@@ -95,14 +96,15 @@ class memorial extends Common {
             show_error('ID不能为空','-1');
         }
         if (isset($_POST) && !empty($_POST)){
+            $this->checklogin();
             $memorial_id = intval($_POST['id']);
-            $user_id = 9;
+            $user_id = $_SESSION['user']['user_id'];
             $content = htmlspecialchars($_POST['content']);
             $ctime = time();
             $sql = 'INSERT INTO comment SET memorial_id='.$memorial_id. ',user_id='.$user_id. ',content="'. $content. '", ctime='. $ctime;
             $this->db->query($sql);
         }
-        $sql = 'SELECT c.*,u.nickname FROM comment c LEFT JOIN user u ON c.user_id = u.user_id WHERE c.memorial_id='.$id;
+        $sql = 'SELECT c.*,u.nickname FROM comment c LEFT JOIN user u ON c.user_id = u.user_id WHERE c.memorial_id='.$id. ' ORDER BY id DESC';
         $query = $this->db->query($sql);
         $data['comments'] = $query->result_array();
         $data['memorial'] = $this->memorial_model->detail($id);

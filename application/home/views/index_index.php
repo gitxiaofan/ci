@@ -22,10 +22,40 @@
 <body class="main-bg">
 <?php
 //print_r($data);
+//print_r($_SESSION['user']);
 ?>
+<!--手机导航栏-->
+<div id="mobile-menu" class="mobile-nav hide-nav">
+    <?php if(empty($_SESSION['user'])):?>
+    <ul class="list-unstyled">
+        <li class="login"><a href="<?php echo site_url('login/index')?>">登录</a> | <a href="<?php echo site_url('login/reg')?>">注册</a></li>
+        <li><a href="<?php echo site_url('index/index')?>">首页</a></li>
+        <li><a href="#">关于</a></li>
+    </ul>
+    <?php else: ?>
+    <ul class="list-unstyled">
+        <li><a href="">您好，<?php echo $_SESSION['user']['nickname']?></a></li>
+        <li><a href="">创建</a> </li>
+        <li><a href="">管理</a> </li>
+        <li><a href="">我的关注</a> </li>
+        <li><a href="">修改账户</a> </li>
+        <li><a href="<?php echo site_url('login/logout')?>">退出</a></li>
+        <li><a href="<?php echo site_url('index/index')?>">首页</a></li>
+        <li><a href="#">关于</a></li>
+    </ul>
+    <?php endif;?>
+</div>
+<!--手机导航栏侧滑-->
+<div class="nav-btn visible-xs visible-sm">
+    <a href="javascript:void(0)" class="animated bounceInUp mobile-nav-taggle" id="mobile-nav-taggle">
+        <span class="glyphicon glyphicon-align-justify"></span>
+    </a>
+</div>
+<!--
 <div class="menu">
     <div class="gohome"><a class="animated bounceInUp" href="" title="返回首页"><i class="fa fa-bars"></i></a></div>
 </div>
+-->
 <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
@@ -114,7 +144,7 @@
                 counter ++;
                 pageStart = counter * pageSize;
 
-                getData(pageStart, pageSize);
+                //getData(pageStart, pageSize);
             }
         });
     });
@@ -170,6 +200,21 @@
     }
 </script>
 
+<script>
+    $("#mobile-nav-taggle").click(function () {
+        var mobileMenu = $("#mobile-menu");
+        if (mobileMenu.hasClass("show-nav")) {
+            setTimeout(function () {
+                mobileMenu.addClass("hide-nav").removeClass("show-nav");
+            }, 100)
+        }
+        else {
+            setTimeout(function (){
+                mobileMenu.addClass("show-nav").removeClass("hide-nav");
+            }, 100)
+        }
+    })
+</script>
 
 </body>
 

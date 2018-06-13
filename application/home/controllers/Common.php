@@ -43,7 +43,7 @@ class Common extends CI_Controller {
 
     public function checklogin()
     {
-        if ($_SESSION['admin'] && $_SESSION['admin']['admin_id']){
+        if ($_SESSION['user'] && $_SESSION['user']['user_id']){
             return true;
         }
         redirect(site_url('login/index'));
