@@ -21,7 +21,7 @@
 </head>
 
 <body class="gray-bg">
-
+<?php include_once('menu.php');?>
 <div class="middle-box text-center loginscreen   animated fadeInDown">
     <div>
         <div>
@@ -62,6 +62,10 @@
 <!-- 全局js -->
 <script src="<?php echo base_url() ?>/assets/home/js/jquery.min.js"></script>
 <script src="<?php echo base_url() ?>/assets/home/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url() ?>/assets/home/js/plugins/layer/layer.min.js"></script>
+
+<!-- 自定义js -->
+<script src="<?php echo base_url() ?>/assets/home/js/content.js"></script>
 
 <!-- jQuery Validation plugin javascript-->
 <script src="<?php echo base_url() ?>/assets/home/js/plugins/validate/jquery.validate.min.js"></script>

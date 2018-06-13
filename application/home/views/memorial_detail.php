@@ -29,9 +29,7 @@ $images = $data['images'];
 <?php
 //print_r($data);
 ?>
-<div class="menu">
-    <div class="gohome"><a class="animated bounceInUp" href="" title="返回首页"><i class="fa fa-bars"></i></a></div>
-</div>
+<?php include_once('menu.php');?>
 <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
@@ -48,7 +46,13 @@ $images = $data['images'];
         <?php endfor; ?>
     </ol>
 </div>
-
+<div class="follow">
+    <?php if(!empty($data['follow_status']) && $data['follow_status'] == 1):?>
+    <button id="follow" class="btn btn-sm btn-follow">已关注</button>
+    <?php else: ?>
+    <button id="follow" class="btn btn-sm btn-primary">关注</button>
+    <?php endif; ?>
+</div>
 <div class="detail">
     <div class="container">
         <div class="title">
@@ -95,7 +99,36 @@ $images = $data['images'];
 
 <!-- 自定义js -->
 <script src="<?php echo base_url() ?>/assets/home/js/content.js"></script>
-
+<script>
+    $('#follow').click(function(){
+        var _this= $(this);
+        var status;
+        if($(this).text() == '关注'){
+            status = 1;
+        }else{
+            status = 0;
+        }
+        var mess = new Array('关注','已关注');
+        var myclass1 = new Array('btn-follow','btn-primary');
+        var myclass2 = new Array('btn-primary','btn-follow');
+        var data = {id: <?php echo $memorial['id']?>, status: status};
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo site_url('memorial/follow')?>',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                if(data.status == 1){
+                    _this.text(mess[status]);
+                    _this.removeClass(myclass1[status]);
+                    _this.addClass(myclass2[status]);
+                }else if(data.status == -2){
+                    window.location.href='<?php echo site_url('login/index')?>';
+                }
+            }
+        });
+    });
+</script>
 
 </body>
 

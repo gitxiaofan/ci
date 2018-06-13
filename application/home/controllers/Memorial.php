@@ -26,6 +26,9 @@ class memorial extends Common {
         if (!$id){
             show_error('ID不能为空','-1');
         }
+        if (!empty($_SESSION['user']['user_id'])){
+            $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
+        }
         $sql = 'SELECT * FROM memorial WHERE id = '. $id;
         $query = $this->db->query($sql);
         $ret = $query->result_array();
@@ -46,6 +49,9 @@ class memorial extends Common {
         $id = intval($_GET['id']);
         if (!$id){
             show_error('ID不能为空','-1');
+        }
+        if (!empty($_SESSION['user']['user_id'])){
+            $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
         $data['memorial'] = $this->memorial_model->detail($id);
         $birthday = explode('-',$data['memorial']['birthday']);
@@ -78,6 +84,9 @@ class memorial extends Common {
             $sql = rtrim($sql,',');
             $this->db->query($sql);
         }
+        if (!empty($_SESSION['user']['user_id'])){
+            $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
+        }
         $data['memorial'] = $this->memorial_model->detail($id);
         $data['images'] = $this->memorial_model->images($id);
         $sql = 'SELECT * FROM sacrifice WHERE status = 1 ORDER BY sort ASC';
@@ -104,11 +113,131 @@ class memorial extends Common {
             $sql = 'INSERT INTO comment SET memorial_id='.$memorial_id. ',user_id='.$user_id. ',content="'. $content. '", ctime='. $ctime;
             $this->db->query($sql);
         }
+        if (!empty($_SESSION['user']['user_id'])){
+            $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
+        }
         $sql = 'SELECT c.*,u.nickname FROM comment c LEFT JOIN user u ON c.user_id = u.user_id WHERE c.memorial_id='.$id. ' ORDER BY id DESC';
         $query = $this->db->query($sql);
         $data['comments'] = $query->result_array();
         $data['memorial'] = $this->memorial_model->detail($id);
         $data['images'] = $this->memorial_model->images($id);
         $this->view('memorial_comment',$data);
+    }
+
+    public function follow()
+    {
+        $return = array('status' => 0);
+        $id = intval($_GET['id']);
+        if (!$id){
+            $return['status'] = -1;
+            $return['message'] = 'ID不能为空';
+            $this->output($return);
+        }
+        if (empty($_SESSION['user']['user_id'])){
+            $return['status'] = -2;
+            $return['message'] = '用户未登录';
+            $this->output($return);
+        }
+        $user_id = $_SESSION['user']['user_id'];
+        $status = intval($_GET['status']);
+        if($return['status'] == 0){
+            $sql = 'INSERT INTO memorial_follow SET memorial_id='. $id. ', user_id='. $user_id. ', status='. $status. ' ON duplicate key update status='.$status;
+            if($this->db->query($sql)){
+                $return['status'] = 1;
+                $return['message'] = '修改成功';
+            }else{
+                $return['status'] = 0;
+                $return['message'] = '修改失败';
+            }
+        }
+
+        $this->output($return);
+    }
+
+    public function add()
+    {
+        $this->checklogin();
+        $data = array(
+            'title' => '添加纪念馆',
+            'action' => 'add',
+        );
+        if (isset($_POST)&&$_POST){
+            if (empty($_POST['name'])){
+                show_error('姓名不能为空！','-1');
+            }
+            $params = array();
+            $params['name'] = htmlspecialchars($_POST['name']);
+            $params['brief'] = $_POST['brief'] ? htmlspecialchars($_POST['brief']) : '';
+            $params['birthday'] = $_POST['birthday'] ? $_POST['birthday'] : '';
+            $params['death'] = $_POST['death'] ? $_POST['death'] : '';
+            $params['epitaph'] = $_POST['epitaph'] ? htmlspecialchars($_POST['epitaph']) : '';
+            $params['is_strong'] = intval($_POST['is_strong']) == 1 ? 1 : 0;
+            $params['stick'] = intval($_POST['stick']) == 1 ? 1 : 0;
+            $params['content'] = $_POST['content'] ? htmlspecialchars($_POST['content']) : '';
+            $params['ctime'] = time();
+            $id = $this->memorial_model->add($params);
+            redirect(site_url('memorial/avaterlist'). '?id='. $id);
+        }
+        $this->view('memorial_form', $data);
+    }
+
+    public function avaterlist()
+    {
+        $data = array(
+            'title' => '添加图片',
+        );
+        $this->view('memorial_avater', $data);
+    }
+
+    public function avater()
+    {
+        $data = array(
+            'title' => '添加照片',
+        );
+        if(isset($_POST) && $_POST){
+            if(!$id = $_POST['id']){
+                show_error('id不能为空','-1');
+            }
+            if(!$img = $_POST['img']){
+                show_error('图片不能为空','-2');
+            }
+            if(!$pic = $this->upload_img64($img,'memorial')){
+                show_error('上传失败','-3');
+            }
+            $sql = 'INSERT INTO memorial_image SET pic="'. $pic. '", memorial_id='. $id. ', ctime='. time();
+            if($this->db->query($sql)){
+                $res = array('status'=>1,'message'=>'上传成功');
+            }else{
+                $res = array('status'=>0,'message'=>'上传失败');
+            }
+            echo json_encode($res);
+            exit;
+        }
+        if(!$id = $_GET['id']){
+            show_error('id不能为空','0');
+        }
+        $data['id'] = $id;
+        $data['module'] = 'memorial';
+        $data['ratio'] = 1.618;
+        $this->load->view('avater', $data);
+    }
+
+    public function upload_img()
+    {
+        if($_FILES){
+            $file = $this->do_upload('file','memorial_content');
+            $pic = '/uploads/memorial_content/'. $file['file_name'];
+            $return = array(
+                'success' => true,
+                'file_path' => $pic,
+            );
+            echo json_encode($return);
+            exit;
+        }
+        $return = array(
+            'success' => false
+        );
+        echo json_encode($return);
+        exit;
     }
 }

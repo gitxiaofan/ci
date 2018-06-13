@@ -721,8 +721,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 
 .btn-primary {
-    background-color: #1ab394;
-    border-color: #1ab394;
+    background-color: #3c3c44;
+    border-color: #3c3c44;
     color: #FFFFFF;
 }
 
@@ -731,8 +731,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    background-color: #18a689;
-    border-color: #18a689;
+    background-color: #3c3c44;
+    border-color: #3c3c44;
     color: #FFFFFF;
 }
 
@@ -7916,18 +7916,18 @@ body.skin-3 {
 .home-list .item .strong { font-weight: 700; font-size: 20px; color: #CFAD17; }
 .carousel .item img { width: 100%; }
 
-.detail { padding: 10px 0 50px;}
+.detail { padding: 20px 0 50px;}
 .detail .title { color: #CFAD17; font-size: 18px; text-align: center;}
 .detail .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px; text-align: center;}
 .detail .brief { color: #CFAD17; font-size: 14px;}
 
-.content { padding: 10px 0 50px;}
+.content { padding: 20px 0 50px;}
 .content .title { color: #CFAD17; font-size: 18px;}
 .content .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}
 .content .info { color: #CFAD17; font-size: 14px;}
 .content .info img { max-width: 100%;}
 
-.sacrifice { padding: 10px 0 50px;}
+.sacrifice { padding: 20px 0 50px;}
 .sacrifice .sacrifice-list .img { padding: 10px;}
 .sacrifice .sacrifice-list .put { text-align: center; }
 .sacrifice .sacrifice-list .submit { margin: 20px 0; text-align: center;}
@@ -7935,7 +7935,7 @@ body.skin-3 {
 .gift-list ul li .time { padding-right: 5px;}
 .gift-list ul li .author { padding-right: 5px;}
 
-.comment { padding: 10px 0 50px;}
+.comment { padding: 50px 0 50px;}
 .comment textarea { background-color: transparent; border-radius: 5px; color: #CFAD17;}
 .comment .submit { margin: 20px 0; text-align: center;}
 
@@ -7955,8 +7955,21 @@ a:hover ,a:focus{text-decoration:none}
 .mobile-nav ul li.login { border-bottom:1px solid #555560;}
 .mobile-nav ul li a:hover {background-color: #474750;color: #ffffff;}
 .show-nav {transform:translateX(0);}
-.hide-nav {transform:translateX(-130px);} /*侧滑关键*/
+.hide-nav {transform:translateX(-131px);} /*侧滑关键*/
 .mobile-nav-taggle {height:35px;line-height:35px;width:35px;background-color:#3c3c44;color:#ffffff;display:inline-block;text-align:center;cursor:pointer; border-radius: 50%;}
 .mobile-nav-taggle:visited,.mobile-nav-taggle:hover { color: #fff;}
 .nav.avbar-inverse{position:relative;}
-.nav-btn {position:fixed;right:20px;top:20px; z-index: 999;}
+.nav-btn {position:fixed;right:20px;top:20px; z-index: 999; opacity: 0.8;}
+
+.follow { position: absolute; right: 10px; margin-top: 10px;}
+.btn-follow,.btn-follow:focus, .btn-follow:hover { background-color: transparent; border-color: #3c3c44; color: #ccc;}
+
+.memorial-form .ibox-title { background-color: transparent; border: none;}
+.memorial-form .ibox-content { background-color: transparent; border-color: #3c3c44;}
+.memorial-form .ibox { color: #A9D18E;}
+.memorial-form .form-control { background-color: transparent; border-radius: 4px; border: 1px solid #A9D18E;}
+.memorial-form .simditor { border-radius: 4px; background-color: transparent;}
+.memorial-form .simditor .simditor-wrapper { border-radius: 4px; background-color: transparent;}
+.memorial-form .simditor .simditor-body,.simditor .simditor-wrapper .simditor-placeholder { padding: 10px;}
+.memorial-form .simditor .simditor-body, .memorial-form .editor-style,.simditor .simditor-body p, .simditor .simditor-body div, .editor-style p, .editor-style div { color: #A9D18E; margin: 0;}
+.memorial-form .simditor .simditor-body img { max-width: 100%}

@@ -77,3 +77,18 @@ function WinMove() {
         })
         .disableSelection();
 };
+
+//菜单
+$("#mobile-nav-taggle").click(function () {
+    var mobileMenu = $("#mobile-menu");
+    if (mobileMenu.hasClass("show-nav")) {
+        setTimeout(function () {
+            mobileMenu.addClass("hide-nav").removeClass("show-nav");
+        }, 100)
+    }
+    else {
+        setTimeout(function (){
+            mobileMenu.addClass("show-nav").removeClass("hide-nav");
+        }, 100)
+    }
+})

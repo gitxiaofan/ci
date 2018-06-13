@@ -89,4 +89,20 @@ class Memorial_model extends CI_Model
         $this->db->query($sql);
         return true;
     }
+
+    public function follow($id,$user_id)
+    {
+        if (!$id || !$user_id){
+            return false;
+        }
+        $sql = 'SELECT status FROM memorial_follow WHERE memorial_id='. $id. ' AND user_id='. $user_id;
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        if($res){
+            $status = $res[0]['status'];
+        }else{
+            $status = 0;
+        }
+        return $status;
+    }
 }
