@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/plugins/cropper/cropper.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/home/css/plugins/simditor/simditor.css" />
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
@@ -40,6 +41,17 @@
                                 <input id="name" name="name" value="<?php echo empty($memorial['name']) ? '':$memorial['name']; ?>" class="form-control" type="text">
                                 <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 纪念人姓名必须填写</span>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">照片（1-3张）：</label>
+                            <div class="col-sm-8">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#picModal">
+                                    <i class="fa fa-plus"></i> 添加图片
+                                </button>
+                                <div class="memorial-pic" id="memorial-pic">
+                                </div>
+                            </div>
+
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">简介：</label>
@@ -85,6 +97,35 @@
 
 </div>
 
+<div class="modal inmodal" id="picModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                </button>
+                <div class="btn-group">
+                    <label title="上传图片" for="inputImage" class="btn btn-info">
+                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 选择本地图片
+                    </label>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="image-crop">
+                    <img src="<?php echo base_url() ?>/assets/home/img/avater.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-white" id="zoomIn" type="button">放大</button>
+                    <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                    <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
+                    <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                    <button class="btn btn-primary" id="download" type="button">裁剪上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 全局js -->
 <script src="<?php echo base_url() ?>/assets/home/js/jquery.min.js"></script>
@@ -148,6 +189,96 @@
     });
 </script>
 
+<!-- Image cropper -->
+<script src="<?php echo base_url() ?>/assets/home/js/plugins/cropper/cropper.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var $image = $(".image-crop > img")
+        $($image).cropper({
+            aspectRatio: 1.618,
+            //preview: ".img-preview",
+            done: function (data) {
+                // 输出结果
+            }
+        });
+
+        var $inputImage = $("#inputImage");
+        if (window.FileReader) {
+            $inputImage.change(function () {
+                var fileReader = new FileReader(),
+                    files = this.files,
+                    file;
+
+                if (!files.length) {
+                    return;
+                }
+
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    fileReader.readAsDataURL(file);
+                    fileReader.onload = function () {
+                        $inputImage.val("");
+                        $image.cropper("reset", true).cropper("replace", this.result);
+                    };
+                } else {
+                    showMessage("请选择图片文件");
+                }
+            });
+        } else {
+            $inputImage.addClass("hide");
+        }
+
+        $("#download").click(function () {
+            var img64 = $image.cropper("getDataURL");
+            $.post('<?php echo site_url('memorial/avater'); ?>',{img:img64},function(res){
+                console.log(res);
+                var obj = JSON.parse(res);
+                if(obj.status == 1){
+                    $('.close').click();
+                    var pichtml = '<div class="col-xs-4 item">\n' +
+                        '<img src="<?php echo base_url()?>' + obj.pic + '">\n' +
+                        '<input type="hidden" name="pic[]" value="' + obj.pic + '">\n' +
+                        '<a href="javascript:void(0)" class="deletepic"><i class="fa fa-times"></i> 删除</a>\n' +
+                        '</div>';
+                    $('#memorial-pic').append(pichtml);
+                }else{
+                    alert(obj.message);
+                }
+            });
+        });
+
+        $("#zoomIn").click(function () {
+            $image.cropper("zoom", 0.1);
+        });
+
+        $("#zoomOut").click(function () {
+            $image.cropper("zoom", -0.1);
+        });
+
+        $("#rotateLeft").click(function () {
+            $image.cropper("rotate", 90);
+        });
+
+        $("#rotateRight").click(function () {
+            $image.cropper("rotate", -90);
+        });
+
+        $("#setDrag").click(function () {
+            $image.cropper("setDragMode", "crop");
+        });
+
+    });
+</script>
+
+<script>
+    $('body').on('click','.deletepic',function(){
+        alert(123);
+        $(this).parent().remove();
+    });
+</script>
 
 </body>
 

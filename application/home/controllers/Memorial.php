@@ -167,6 +167,7 @@ class memorial extends Common {
             }
             $params = array();
             $params['name'] = htmlspecialchars($_POST['name']);
+            $params['user_id'] = $_SESSION['user']['user_id'];
             $params['brief'] = $_POST['brief'] ? htmlspecialchars($_POST['brief']) : '';
             $params['birthday'] = $_POST['birthday'] ? $_POST['birthday'] : '';
             $params['death'] = $_POST['death'] ? $_POST['death'] : '';
@@ -176,50 +177,35 @@ class memorial extends Common {
             $params['content'] = $_POST['content'] ? htmlspecialchars($_POST['content']) : '';
             $params['ctime'] = time();
             $id = $this->memorial_model->add($params);
-            redirect(site_url('memorial/avaterlist'). '?id='. $id);
+            if($id || $_POST['pic']){
+                $time = time();
+                $sql = 'INSERT INTO memorial_image(pic,memorial_id,ctime) VALUES';
+                foreach($_POST['pic'] as $pic){
+                    $sql .= "('$pic',$id,$time),";
+                }
+                $sql = rtrim($sql,',');
+                $this->db->query($sql);
+            }
+            redirect(site_url('memorial/detail'). '?id='.$id);
         }
         $this->view('memorial_form', $data);
     }
 
-    public function avaterlist()
-    {
-        $data = array(
-            'title' => '添加图片',
-        );
-        $this->view('memorial_avater', $data);
-    }
-
     public function avater()
     {
-        $data = array(
-            'title' => '添加照片',
-        );
+        $return = array();
         if(isset($_POST) && $_POST){
-            if(!$id = $_POST['id']){
-                show_error('id不能为空','-1');
-            }
             if(!$img = $_POST['img']){
-                show_error('图片不能为空','-2');
+                $this->output(array(status=>-1, 'message'=>'图片不能为空'));
             }
-            if(!$pic = $this->upload_img64($img,'memorial')){
-                show_error('上传失败','-3');
-            }
-            $sql = 'INSERT INTO memorial_image SET pic="'. $pic. '", memorial_id='. $id. ', ctime='. time();
-            if($this->db->query($sql)){
-                $res = array('status'=>1,'message'=>'上传成功');
+            if($pic = $this->upload_img64($img,'memorial')){
+                $return = array('status'=>1,'message'=>'上传成功','pic'=>$pic);
             }else{
-                $res = array('status'=>0,'message'=>'上传失败');
+                $return = array('status'=>0,'message'=>'上传失败');
             }
-            echo json_encode($res);
-            exit;
+            $this->output($return);
         }
-        if(!$id = $_GET['id']){
-            show_error('id不能为空','0');
-        }
-        $data['id'] = $id;
-        $data['module'] = 'memorial';
-        $data['ratio'] = 1.618;
-        $this->load->view('avater', $data);
+        $this->output($return);
     }
 
     public function upload_img()

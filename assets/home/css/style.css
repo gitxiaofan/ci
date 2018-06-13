@@ -3474,7 +3474,7 @@ video {
 }
 
 .modal-body {
-    padding: 20px 30px 30px 30px;
+    padding: 10px;
 }
 
 .inmodal .modal-body {
@@ -7973,3 +7973,6 @@ a:hover ,a:focus{text-decoration:none}
 .memorial-form .simditor .simditor-body,.simditor .simditor-wrapper .simditor-placeholder { padding: 10px;}
 .memorial-form .simditor .simditor-body, .memorial-form .editor-style,.simditor .simditor-body p, .simditor .simditor-body div, .editor-style p, .editor-style div { color: #A9D18E; margin: 0;}
 .memorial-form .simditor .simditor-body img { max-width: 100%}
+
+.memorial-pic .item img { width: 100%;}
+.memorial-pic .item { text-align: center;}
