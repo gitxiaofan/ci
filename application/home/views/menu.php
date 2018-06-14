@@ -10,8 +10,8 @@
         <ul class="list-unstyled">
             <li><a href="">您好，<?php echo $_SESSION['user']['nickname']?></a></li>
             <li><a href="<?php echo site_url('memorial/add')?>">创建</a> </li>
-            <li><a href="">管理</a> </li>
-            <li><a href="">我的关注</a> </li>
+            <li><a href="<?php echo site_url('memorial/manage')?>">管理</a> </li>
+            <li><a href="<?php echo site_url('memorial/myfollow')?>">我的关注</a> </li>
             <li><a href="">修改账户</a> </li>
             <li><a href="<?php echo site_url('login/logout')?>">退出</a></li>
             <li><a href="<?php echo site_url('index/index')?>">首页</a></li>

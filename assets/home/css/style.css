@@ -7976,3 +7976,10 @@ a:hover ,a:focus{text-decoration:none}
 
 .memorial-pic .item img { width: 100%;}
 .memorial-pic .item { text-align: center;}
+
+.manage { padding: 10px 0;}
+.manage-title { margin-bottom: 20px; border-bottom: 1px solid #3c3c44;}
+.manage-title h3 { color: #A9D18E;}
+.manage-list li { margin-bottom: 15px;}
+.manage-list li .title a { color: #CFAD17; font-size: 16px; line-height: 30px;}
+.manage-list li .operation { margin-top: 20px;}

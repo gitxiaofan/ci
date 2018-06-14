@@ -1,3 +1,8 @@
+<?php
+//print_r($data);
+$memorial = $data['memorial'];
+$images = $data['images'];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -49,6 +54,15 @@
                                     <i class="fa fa-plus"></i> 添加图片
                                 </button>
                                 <div class="memorial-pic" id="memorial-pic">
+                                    <?php if(!empty($images)):?>
+                                    <?php foreach ($images as $image):?>
+                                            <div class="col-xs-4 item">
+                                                <img src="<?php echo base_url(). $image['pic']?>">
+                                                <input type="hidden" name="pic[]" value="<?php echo $image['pic']?>">
+                                                <a href="javascript:void(0)" class="deletepic"><i class="fa fa-times"></i> 删除</a>
+                                            </div>
+                                    <?php endforeach;?>
+                                    <?php endif;?>
                                 </div>
                             </div>
 
@@ -148,12 +162,24 @@
                 name: {
                     required: true,
                     minlength: 1
+                },
+                birthday: {
+                    required: true
+                },
+                death: {
+                    required: true
                 }
             },
             messages: {
                 name: {
                     required: icon + "请输入您的姓名/昵称",
                     minlength: icon + "姓名/昵称必须两个字符以上"
+                },
+                birthday: {
+                    required: icon + "请输入生日"
+                },
+                death: {
+                    required: icon + "请输入忌日"
                 }
             }
         });
@@ -275,7 +301,6 @@
 
 <script>
     $('body').on('click','.deletepic',function(){
-        alert(123);
         $(this).parent().remove();
     });
 </script>

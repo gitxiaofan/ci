@@ -66,6 +66,14 @@ class Memorial_model extends CI_Model
         $this->db->query($sql);
         $sql = 'DELETE FROM memorial_content WHERE memorial_id IN ('. $id. ')';
         $this->db->query($sql);
+        $sql = 'DELETE FROM memorial_follow WHERE memorial_id IN ('. $id. ')';
+        $this->db->query($sql);
+        $sql = 'DELETE FROM memorial_image WHERE memorial_id IN ('. $id. ')';
+        $this->db->query($sql);
+        $sql = 'DELETE FROM sacrifice_info WHERE memorial_id IN ('. $id. ')';
+        $this->db->query($sql);
+        $sql = 'DELETE FROM comment WHERE memorial_id IN ('. $id. ')';
+        $this->db->query($sql);
         return true;
     }
 

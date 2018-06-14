@@ -186,6 +186,10 @@ class memorial extends Common {
                 $sql = rtrim($sql,',');
                 $this->db->query($sql);
             }
+            if($id){
+                $sql = 'INSERT INTO memorial_follow SET memorial_id='. $id. ', user_id='. $params['user_id']. ', status=1';
+                $this->db->query($sql);
+            }
             redirect(site_url('memorial/detail'). '?id='.$id);
         }
         $this->view('memorial_form', $data);
@@ -225,5 +229,105 @@ class memorial extends Common {
         );
         echo json_encode($return);
         exit;
+    }
+
+    public function manage()
+    {
+        $this->checklogin();
+        $user_id = $_SESSION['user']['user_id'];
+        $sql = 'SELECT * FROM memorial WHERE user_id = '. $user_id;
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        $memorials = array();
+        foreach ($res as $row){
+            $images = $this->memorial_model->images($row['id']);
+            if($images){
+                $row['images'] = $images;
+            }
+            $memorials[] = $row;
+        }
+        $data['memorials'] = $memorials;
+        $this->view('memorial_manage',$data);
+    }
+
+    public function mod()
+    {
+        $this->checklogin();
+        $user_id = $_SESSION['user']['user_id'];
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空');
+        }
+        $sql = 'SELECT * FROM memorial WHERE id = '. $id. ' AND user_id = '.$user_id;
+        $query = $this->db->query($sql);
+        $ret = $query->result_array();
+        $memorial = $ret[0];
+        if(!$memorial){
+            show_error('无法找到纪念馆');
+        }
+        if(isset($_POST) && $_POST){
+            $params = array();
+            $params['name'] = htmlspecialchars($_POST['name']);
+            $params['user_id'] = $user_id;
+            $params['brief'] = $_POST['brief'] ? htmlspecialchars($_POST['brief']) : '';
+            $params['birthday'] = $_POST['birthday'] ? $_POST['birthday'] : '';
+            $params['death'] = $_POST['death'] ? $_POST['death'] : '';
+            $params['epitaph'] = $_POST['epitaph'] ? htmlspecialchars($_POST['epitaph']) : '';
+            $params['is_strong'] = intval($_POST['is_strong']) == 1 ? 1 : 0;
+            $params['stick'] = intval($_POST['stick']) == 1 ? 1 : 0;
+            $params['content'] = $_POST['content'] ? htmlspecialchars($_POST['content']) : '';
+            $params['ctime'] = time();
+            $this->memorial_model->mod($id,$params);
+            $sql = 'DELETE FROM memorial_image WHERE memorial_id='. $id;
+            $this->db->query($sql);
+            $time = time();
+            $sql = 'INSERT INTO memorial_image(pic,memorial_id,ctime) VALUES';
+            foreach($_POST['pic'] as $pic){
+                $sql .= "('$pic',$id,$time),";
+            }
+            $sql = rtrim($sql,',');
+            $this->db->query($sql);
+            redirect(site_url('memorial/detail'). '?id='.$id);
+        }
+        $data['memorial'] = $memorial;
+        $data['images'] = $this->memorial_model->images($id);
+        $this->view('memorial_form',$data);
+    }
+    public function delete()
+    {
+        $this->checklogin();
+        $user_id = $_SESSION['user']['user_id'];
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空');
+        }
+        $sql = 'SELECT * FROM memorial WHERE id = '. $id. ' AND user_id = '.$user_id;
+        $query = $this->db->query($sql);
+        $ret = $query->result_array();
+        $memorial = $ret[0];
+        if(!$memorial){
+            show_error('无法找到纪念馆');
+        }
+        $this->memorial_model->del($id);
+        redirect(site_url('memorial/manage'));
+    }
+
+    public function myfollow()
+    {
+        $this->checklogin();
+        $user_id = $_SESSION['user']['user_id'];
+        $sql = 'SELECT m.* FROM memorial_follow mf LEFT JOIN memorial m ON mf.memorial_id=m.id WHERE mf.user_id='.$user_id. ' AND mf.status=1';
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        $memorials = array();
+        foreach ($res as $row){
+            $images = $this->memorial_model->images($row['id']);
+            if($images){
+                $row['images'] = $images;
+            }
+            $memorials[] = $row;
+        }
+        $data['memorials'] = $memorials;
+        $this->view('memorial_follow',$data);
     }
 }
