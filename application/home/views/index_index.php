@@ -30,6 +30,7 @@
 //print_r($data);
 //print_r($_SESSION['user']);
 ?>
+
 <?php include_once('menu.php');?>
 <div class="index-top">
     <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
