@@ -33,14 +33,26 @@ class memorial extends Common {
         $query = $this->db->query($sql);
         $ret = $query->result_array();
         $data['memorial'] = $ret[0];
-        $birthday = explode('-',$data['memorial']['birthday']);
-        $data['memorial']['birthday'] = $birthday[0].'年'.$birthday[1].'月'.$birthday[2].'日';
-        $death = explode('-',$data['memorial']['death']);
-        $data['memorial']['death'] = $death[0].'年'.$death[1].'月'.$death[2].'日';
+        $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
+        $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
         $data['memorial']['name'] = htmlspecialchars_decode($data['memorial']['name']);
         $data['memorial']['brief'] = htmlspecialchars_decode($data['memorial']['brief']);
         $data['memorial']['epitaph'] = htmlspecialchars_decode($data['memorial']['epitaph']);
         $data['images'] = $this->memorial_model->images($id);
+        $sql = 'SELECT * FROM sacrifice ORDER BY sort ASC';
+        $query = $this->db->query($sql);
+        $gifts = array();
+        foreach ($query->result_array() as $row){
+            $sql = 'SELECT sum(`number`) as total FROM sacrifice_info WHERE memorial_id='.$id. ' AND sacrifice_id='.$row['id'];
+            $query = $this->db->query($sql);
+            $res = $query->result_array();
+            if(!$res){
+                continue;
+            }
+            $row['total'] = $res[0]['total'];
+            $gifts[] = $row;
+        }
+        $data['gifts'] = $gifts;
         $this->view('memorial_detail',$data);
     }
 
@@ -54,10 +66,8 @@ class memorial extends Common {
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
         $data['memorial'] = $this->memorial_model->detail($id);
-        $birthday = explode('-',$data['memorial']['birthday']);
-        $data['memorial']['birthday'] = $birthday[0].'年'.$birthday[1].'月'.$birthday[2].'日';
-        $death = explode('-',$data['memorial']['death']);
-        $data['memorial']['death'] = $death[0].'年'.$death[1].'月'.$death[2].'日';
+        $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
+        $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
         $data['memorial']['name'] = htmlspecialchars_decode($data['memorial']['name']);
         $data['memorial']['brief'] = htmlspecialchars_decode($data['memorial']['brief']);
         $data['memorial']['epitaph'] = htmlspecialchars_decode($data['memorial']['epitaph']);
@@ -77,6 +87,12 @@ class memorial extends Common {
             $memorial_id = intval($_POST['id']);
             $user_id = $_SESSION['user']['user_id'];
             $time = time();
+            $sql = 'SELECT * FROM sacrifice_info WHERE memorial_id='.$memorial_id. ' AND user_id='.$user_id. ' LIMIT 1';
+            $query = $this->db->query($sql);
+            if(!$query->result_array()){
+                $sql = 'UPDATE memorial SET sacrifice_num = sacrifice_num + 1 WHERE id='.$memorial_id;
+                $this->db->query($sql);
+            }
             $sql = 'INSERT INTO sacrifice_info(user_id,sacrifice_id,memorial_id,ctime) VALUES';
             foreach($_POST['sacrifice'] as $sacrifice){
                 $sql .= "($user_id,$sacrifice,$memorial_id,$time),";
@@ -88,14 +104,35 @@ class memorial extends Common {
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
         $data['memorial'] = $this->memorial_model->detail($id);
+        $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
+        $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
         $data['images'] = $this->memorial_model->images($id);
         $sql = 'SELECT * FROM sacrifice WHERE status = 1 ORDER BY sort ASC';
         $query = $this->db->query($sql);
         $data['sacrifices'] = $query->result_array();
-        $sql = 'SELECT si.*,u.nickname,s.name as sacrifice_name FROM sacrifice_info si LEFT JOIN user u ON si.user_id = u.user_id LEFT JOIN sacrifice s ON si.sacrifice_id = s.id WHERE memorial_id = '.$id. ' ORDER BY ctime DESC';
+        $sql = 'SELECT si.*,u.nickname,s.name as sacrifice_name FROM sacrifice_info si LEFT JOIN user u ON si.user_id = u.user_id LEFT JOIN sacrifice s ON si.sacrifice_id = s.id WHERE memorial_id = '.$id. ' ORDER BY id DESC LIMIT 20';
         $query = $this->db->query($sql);
         $data['gifts'] = $query->result_array();
         $this->view('memorial_sacrifice',$data);
+    }
+
+    public function gifts()
+    {
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空','-1');
+        }
+        $size = empty($_GET['size']) ? 20 : intval($_GET['size']);
+        $page = empty($_GET['page']) ? 1 : intval($_GET['page']);
+        $limit = ($page - 1) * $size;
+        $sql = 'SELECT si.*,u.nickname,s.name as sacrifice_name FROM sacrifice_info si LEFT JOIN user u ON si.user_id = u.user_id LEFT JOIN sacrifice s ON si.sacrifice_id = s.id WHERE memorial_id = '.$id. ' ORDER BY id DESC LIMIT '. $limit. ','. $size;
+        $query = $this->db->query($sql);
+        $data = array();
+        foreach ($query->result_array() as $row){
+            $row['ctime'] = date('Y-m-d H:i:s', $row['ctime']);
+            $data[] = $row;
+        }
+        $this->output($data);
     }
 
     public function comment()
@@ -113,15 +150,46 @@ class memorial extends Common {
             $sql = 'INSERT INTO comment SET memorial_id='.$memorial_id. ',user_id='.$user_id. ',content="'. $content. '", ctime='. $ctime;
             $this->db->query($sql);
         }
+        $size = empty($_GET['size']) ? 20 : intval($_GET['size']);
+        $page = empty($_GET['page']) ? 1 : intval($_GET['page']);
+        $limit = ($page - 1) * $size;
+        $sql = 'SELECT c.*,u.nickname FROM comment c LEFT JOIN user u ON c.user_id = u.user_id WHERE c.memorial_id='.$id. ' ORDER BY id DESC LIMIT '. $limit. ','. $size;
+        $query = $this->db->query($sql);
+        $comments = array();
+        foreach ($query->result_array() as $row){
+            $row['ctime'] = date('Y-m-d', $row['ctime']);
+            $comments[] = $row;
+        }
+        //判断ajax请求
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == "XMLHttpRequest"){
+            $this->output($comments);
+        }
+        $data['comments'] = $comments;
+        $data['memorial'] = $this->memorial_model->detail($id);
+        $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
+        $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
+        $data['images'] = $this->memorial_model->images($id);
         if (!empty($_SESSION['user']['user_id'])){
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
-        $sql = 'SELECT c.*,u.nickname FROM comment c LEFT JOIN user u ON c.user_id = u.user_id WHERE c.memorial_id='.$id. ' ORDER BY id DESC';
-        $query = $this->db->query($sql);
-        $data['comments'] = $query->result_array();
-        $data['memorial'] = $this->memorial_model->detail($id);
-        $data['images'] = $this->memorial_model->images($id);
         $this->view('memorial_comment',$data);
+    }
+
+    public function delComment()
+    {
+        $this->checklogin();
+        $user_id = $_SESSION['user']['user_id'];
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空','-1');
+        }
+        $sql = 'DELETE FROM comment WHERE id='.$id.' AND user_id='.$user_id;
+        if($this->db->query($sql)){
+            echo 'true';
+            exit;
+        }
+        echo 'false';
+        exit;
     }
 
     public function follow()
@@ -177,7 +245,7 @@ class memorial extends Common {
             $params['content'] = $_POST['content'] ? htmlspecialchars($_POST['content']) : '';
             $params['ctime'] = time();
             $id = $this->memorial_model->add($params);
-            if($id || $_POST['pic']){
+            if($id && $_POST['pic']){
                 $time = time();
                 $sql = 'INSERT INTO memorial_image(pic,memorial_id,ctime) VALUES';
                 foreach($_POST['pic'] as $pic){
@@ -235,16 +303,23 @@ class memorial extends Common {
     {
         $this->checklogin();
         $user_id = $_SESSION['user']['user_id'];
-        $sql = 'SELECT * FROM memorial WHERE user_id = '. $user_id;
+        $size = empty($_GET['size']) ? 6 : intval($_GET['size']);
+        $page = empty($_GET['page']) ? 1 : intval($_GET['page']);
+        $limit = ($page - 1) * $size;
+        $sql = 'SELECT * FROM memorial WHERE user_id = '. $user_id. ' ORDER BY id DESC LIMIT '.$limit. ','.$size;
         $query = $this->db->query($sql);
         $res = $query->result_array();
         $memorials = array();
         foreach ($res as $row){
             $images = $this->memorial_model->images($row['id']);
             if($images){
-                $row['images'] = $images;
+                $row['image'] = $images[0]['pic'];
             }
             $memorials[] = $row;
+        }
+        //判断ajax请求
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == "XMLHttpRequest"){
+            $this->output($memorials);
         }
         $data['memorials'] = $memorials;
         $this->view('memorial_manage',$data);

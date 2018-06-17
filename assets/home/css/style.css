@@ -4,7 +4,6 @@
  *   version 4.9
  *
 */
-
 h1,
 h2,
 h3,
@@ -7910,24 +7909,40 @@ body.skin-3 {
     background-size: 100%;
 }
 
-.home-list { margin-top: 15px;}
-.home-list .item { text-align: center; margin-bottom: 10px;}
-.home-list .item .name { color: #fff; font-size: 16px; line-height: 30px; }
-.home-list .item .strong { font-weight: 700; font-size: 20px; color: #CFAD17; }
+.index-top { position: fixed; top: 0; left: 0; z-index: 1;}
+.home-list { margin-top: 300px;}
+.home-list .item { text-align: center; margin-bottom: 10px; margin-left: -10px; margin-right: -10px;}
+.home-list .item-k { text-align: left !important; margin-left: 0; margin-right: 0;}
+.home-list .item .name { color: #e9cd52; font-size: 16px; line-height: 30px; }
+.home-list .item .time { color: #c6b156;
+    font-size: 14px;
+    line-height: 30px;
+    padding-left: 10px; }
+.home-list .item .strong { font-weight: 700; font-size: 20px; color: #e9cd52; }
 .carousel .item img { width: 100%; }
 
-.detail { padding: 20px 0 50px;}
-.detail .title { color: #CFAD17; font-size: 18px; text-align: center;}
-.detail .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px; text-align: center;}
+.detail { padding: 15px 0 50px;}
 .detail .brief { color: #CFAD17; font-size: 14px;}
 
-.content { padding: 20px 0 50px;}
-.content .title { color: #CFAD17; font-size: 18px;}
-.content .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}
+.gift { margin-top: 20px;}
+.gift li { margin-bottom: 15px;}
+.gift li .item { padding-left: 5px; padding-right: 5px;}
+.gift img { width: 100%;}
+.vertical-middle-sm {
+    display: table;
+}
+.vertical-middle-sm > div {
+    display: table-cell;
+    height: 100%;
+    min-height: 100%;
+    float: none !important;
+}
+
+.content { padding: 10px 0 50px;}
 .content .info { color: #CFAD17; font-size: 14px;}
 .content .info img { max-width: 100%;}
 
-.sacrifice { padding: 20px 0 50px;}
+.sacrifice { padding: 15px 0 50px;}
 .sacrifice .sacrifice-list .img { padding: 10px;}
 .sacrifice .sacrifice-list .put { text-align: center; }
 .sacrifice .sacrifice-list .submit { margin: 20px 0; text-align: center;}
@@ -7935,7 +7950,7 @@ body.skin-3 {
 .gift-list ul li .time { padding-right: 5px;}
 .gift-list ul li .author { padding-right: 5px;}
 
-.comment { padding: 50px 0 50px;}
+.comment { padding: 15px 0 50px;}
 .comment textarea { background-color: transparent; border-radius: 5px; color: #CFAD17;}
 .comment .submit { margin: 20px 0; text-align: center;}
 
@@ -7948,14 +7963,14 @@ body.skin-3 {
 .bar .bar-item span { display: block; font-size: 14px; color: #ccc; }
 .bar .active span { color: #CFAD17;}
 
-#mobile-menu {position:fixed;top:0;left:0;width:130px;height:100%;background-color:#3c3c44;z-index:9999;}
+#mobile-menu {position:fixed;top:0;left:0;width:140px;height:100%;background-color:#3c3c44;z-index:9999;}
 a:hover ,a:focus{text-decoration:none}
 .mobile-nav ul li a {color:#fff;display:block;padding:1em 12%; border-bottom:1px solid #555560;transition:all 0.2s ease-out;cursor:pointer;}
 .mobile-nav ul li.login a { display: inline-block !important; border-bottom: none !important;}
 .mobile-nav ul li.login { border-bottom:1px solid #555560;}
 .mobile-nav ul li a:hover {background-color: #474750;color: #ffffff;}
 .show-nav {transform:translateX(0);}
-.hide-nav {transform:translateX(-131px);} /*侧滑关键*/
+.hide-nav {transform:translateX(-141px);} /*侧滑关键*/
 .mobile-nav-taggle {height:35px;line-height:35px;width:35px;background-color:#3c3c44;color:#ffffff;display:inline-block;text-align:center;cursor:pointer; border-radius: 50%;}
 .mobile-nav-taggle:visited,.mobile-nav-taggle:hover { color: #fff;}
 .nav.avbar-inverse{position:relative;}
@@ -7973,6 +7988,7 @@ a:hover ,a:focus{text-decoration:none}
 .memorial-form .simditor .simditor-body,.simditor .simditor-wrapper .simditor-placeholder { padding: 10px;}
 .memorial-form .simditor .simditor-body, .memorial-form .editor-style,.simditor .simditor-body p, .simditor .simditor-body div, .editor-style p, .editor-style div { color: #A9D18E; margin: 0;}
 .memorial-form .simditor .simditor-body img { max-width: 100%}
+.memorial-form .btn-primary { color: #A9D18E;}
 
 .memorial-pic .item img { width: 100%;}
 .memorial-pic .item { text-align: center;}
@@ -7983,3 +7999,14 @@ a:hover ,a:focus{text-decoration:none}
 .manage-list li { margin-bottom: 15px;}
 .manage-list li .title a { color: #CFAD17; font-size: 16px; line-height: 30px;}
 .manage-list li .operation { margin-top: 20px;}
+
+#user-pic img {width: 100%;}
+
+.avater { display: block; margin-bottom: 5px;}
+.avater img{ width: 50px; height: 50px; border-radius: 50%;}
+.avater-name { display: block;}
+
+.dropload-down { color: #fff;}
+
+.memorial-name .title { color: #CFAD17; font-size: 18px;}
+.memorial-name .time { color: #CFAD17; font-size: 14px; margin-bottom: 10px;}

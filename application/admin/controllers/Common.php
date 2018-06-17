@@ -109,4 +109,9 @@ class Common extends CI_Controller {
         }
     }
 
+    public function output($data){
+        echo json_encode($data);
+        exit;
+    }
+
 }

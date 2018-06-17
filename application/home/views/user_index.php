@@ -1,7 +1,5 @@
 <?php
-//print_r($data);
-$memorial = empty($data['memorial']) ? '':$data['memorial'];
-$images = empty($data['images']) ? '':$data['images'];
+$user = $data['user'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +9,7 @@ $images = empty($data['images']) ? '':$data['images'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>编辑纪念馆_<?php echo $settings['sitename']?></title>
+    <title>修改账户信息_<?php echo $settings['sitename']?></title>
     <meta name="keywords" content="<?php echo $settings['sitekeyword']?>">
     <meta name="description" content="<?php echo $settings['sitedescription']?>">
     <link rel="shortcut icon" href="favicon.ico">
@@ -28,7 +26,6 @@ $images = empty($data['images']) ? '':$data['images'];
         $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
         $youziku.draw();
     </script>
-
 </head>
 
 <body class="detail-bg">
@@ -38,7 +35,7 @@ $images = empty($data['images']) ? '':$data['images'];
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>添加/编辑纪念馆</h5>
+                    <h5>修改账户信息</h5>
                     <div class="ibox-tools">
                         <a href="javascript:history.back(-1)">
                             <i class="fa fa-reply"></i> 返回上一页
@@ -46,63 +43,57 @@ $images = empty($data['images']) ? '':$data['images'];
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="add" method="post">
+                    <form class="form-horizontal m-t" id="mod" method="post">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">纪念人姓名：</label>
+                            <label class="col-sm-3 control-label">手机号：</label>
                             <div class="col-sm-8">
-                                <input id="name" name="name" value="<?php echo empty($memorial['name']) ? '':$memorial['name']; ?>" class="form-control" type="text">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 纪念人姓名必须填写</span>
+                                <input id="mobile" name="mobile" value="<?php echo $user['mobile'] ?>" class="form-control" type="text">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 手机号必须填写</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">照片（1-3张）：</label>
+                            <label class="col-sm-3 control-label">密码：</label>
+                            <div class="col-sm-8">
+                                <input id="password" name="password" class="form-control" type="password">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>留空表示不修改密码</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">确认密码：</label>
+                            <div class="col-sm-8">
+                                <input id="confirm_password" name="confirm_password" class="form-control" type="password">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">姓名/昵称：</label>
+                            <div class="col-sm-8">
+                                <input id="nickname" name="nickname" value="<?php echo empty($user['nickname']) ? '':$user['nickname']; ?>" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 姓名/昵称是必填的</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">E-mail：</label>
+                            <div class="col-sm-8">
+                                <input id="email" name="email" value="<?php echo empty($user['email']) ? '':$user['email']; ?>" class="form-control" type="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">头像：</label>
                             <div class="col-sm-8">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#picModal">
-                                    <i class="fa fa-plus"></i> 添加图片
+                                    <i class="fa fa-plus"></i> <?php echo empty($user['avater']) ? '添加':'修改' ?>头像
                                 </button>
-                                <div class="memorial-pic row" id="memorial-pic">
-                                    <?php if(!empty($images)):?>
-                                    <?php foreach ($images as $image):?>
-                                            <div class="col-xs-4 item">
-                                                <img src="<?php echo base_url(). $image['pic']?>">
-                                                <input type="hidden" name="pic[]" value="<?php echo $image['pic']?>">
-                                                <a href="javascript:void(0)" class="deletepic"><i class="fa fa-times"></i> 删除</a>
+                                <div id="memorial-pic" class="row">
+                                    <?php if(!empty($user['avater'])):?>
+                                        <div class="user-pic" id="user-pic">
+                                            <div class="col-xs-6">
+                                                <img src="<?php echo base_url(). $user['avater']?>">
+                                                <input type="hidden" name="avater" value="<?php echo $user['avater']?>">
                                             </div>
-                                    <?php endforeach;?>
-                                    <?php endif;?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">简介：</label>
-                            <div class="col-sm-8">
-                                <textarea id="brief" name="brief" class="form-control" rows="3" placeholder="限300字内"><?php echo empty($memorial['brief']) ? '':$memorial['brief']; ?></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">生日：</label>
-                            <div class="col-sm-8">
-                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">忌日：</label>
-                            <div class="col-sm-8">
-                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">墓志铭：</label>
-                            <div class="col-sm-8">
-                                <textarea id="epitaph" name="epitaph" class="form-control" rows="3" placeholder="限100字内"><?php echo empty($memorial['epitaph']) ? '':$memorial['epitaph']; ?></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">纪事：</label>
-                            <div class="col-sm-8">
-                                <textarea name="content" id="editor" placeholder="输入人物纪事。内容建议：父母子女，个性天赋，人品志向，生平要事。限500字。可在电脑端登陆编辑。"><?php echo empty($memorial['content']) ? '':$memorial['content']?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -164,63 +155,61 @@ $images = empty($data['images']) ? '':$data['images'];
 <script>
     $().ready(function(){
         var icon = "<i class='fa fa-times-circle'></i> ";
-        $('#add').validate({
+        $('#mod').validate({
             rules: {
-                name: {
+                nickname: {
                     required: true,
-                    minlength: 1
+                    minlength: 2
                 },
-                birthday: {
-                    required: true
+                password: {
+                    minlength: 5
                 },
-                death: {
-                    required: true
+                confirm_password: {
+                    minlength: 5,
+                    equalTo: "#password"
+                },
+                email: {
+                    email: true
+                },
+                mobile: {
+                    number: true,
+                    maxlength: 20,
+                    remote: {
+                        url: "<?php echo site_url('user/checkMobile');?>",
+                        type: "post",
+                        dataType: "json",
+                        cache: false,
+                        async: false,
+                        data:{
+                            mobile: function(){ return $("#mobile").val(); },
+                            id : "<?php echo empty($user['user_id']) ? 0 : $user['user_id']?>"
+                        }
+                    }
                 }
             },
             messages: {
-                name: {
+                nickname: {
                     required: icon + "请输入您的姓名/昵称",
                     minlength: icon + "姓名/昵称必须两个字符以上"
                 },
-                birthday: {
-                    required: icon + "请输入生日"
+                password: {
+                    minlength: icon + "密码必须5个字符以上"
                 },
-                death: {
-                    required: icon + "请输入忌日"
+                confirm_password: {
+                    minlength: icon + "密码必须5个字符以上",
+                    equalTo: icon + "两次输入的密码不一致"
+                },
+                email: icon + "请输入正确格式的E-mail",
+                mobile: {
+                    number: icon + "请输入正确格式的手机号码",
+                    required: icon + "请输入您的手机号",
+                    remote : icon + "此手机号已被注册"
                 }
             }
         });
-
     });
 </script>
 
-<!-- layerDate plugin javascript -->
-<script src="<?php echo base_url() ?>/assets/home/js/plugins/layer/laydate/laydate.js"></script>
-
-<!-- simditor -->
-<script type="text/javascript" src="<?php echo base_url() ?>/assets/home/js/plugins/simditor/module.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>/assets/home/js/plugins/simditor/uploader.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>/assets/home/js/plugins/simditor/hotkeys.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>/assets/home/js/plugins/simditor/simditor.js"></script>
-<script>
-    $(document).ready(function () {
-        var editor = new Simditor({
-            textarea: $('#editor'),
-            defaultImage: '<?php echo base_url() ?>/assets/home/img/a9.jpg',
-            placeholder : '这里输入内容...',
-            pasteImage: true,
-            toolbarFloat:true,
-            toolbar : toolbar,  //工具栏
-            upload : {
-                url : '<?php echo site_url('memorial/upload_img')?>', //文件上传的接口地址
-                params: '', //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
-                fileKey: 'file', //服务器端获取文件数据的参数名
-                connectionCount: 3,
-                leaveConfirm: '正在上传文件'
-            }
-        });
-    });
-</script>
 
 <!-- Image cropper -->
 <script src="<?php echo base_url() ?>/assets/home/js/plugins/cropper/cropper.min.js"></script>
@@ -230,7 +219,7 @@ $images = empty($data['images']) ? '':$data['images'];
 
         var $image = $(".image-crop > img")
         $($image).cropper({
-            aspectRatio: 1.618,
+            aspectRatio: 1,
             //preview: ".img-preview",
             done: function (data) {
                 // 输出结果
@@ -266,16 +255,20 @@ $images = empty($data['images']) ? '':$data['images'];
 
         $("#download").click(function () {
             var img64 = $image.cropper("getDataURL");
-            $.post('<?php echo site_url('memorial/avater'); ?>',{img:img64},function(res){
-                //console.log(res);
+            $.post('<?php echo site_url('user/avater'); ?>',{img:img64},function(res){
+                console.log(res);
                 var obj = JSON.parse(res);
                 if(obj.status == 1){
                     $('.close').click();
-                    var pichtml = '<div class="col-xs-4 item">\n' +
+                    var pichtml = '<div class="user-pic" id="user-pic">\n' +
+                        '<div class="col-xs-6">\n' +
                         '<img src="<?php echo base_url()?>' + obj.pic + '">\n' +
-                        '<input type="hidden" name="pic[]" value="' + obj.pic + '">\n' +
-                        '<a href="javascript:void(0)" class="deletepic"><i class="fa fa-times"></i> 删除</a>\n' +
+                        '<input type="hidden" name="avater" value="' + obj.pic + '">\n' +
+                        '</div>\n' +
                         '</div>';
+                    if(<?php echo empty($user['avater']) ? 'false':'true'?>){
+                        $('#user-pic').remove;
+                    }
                     $('#memorial-pic').append(pichtml);
                 }else{
                     alert(obj.message);

@@ -19,10 +19,17 @@ $comments = $data['comments'];
 
     <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/dropload.css" rel="stylesheet">
 
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
+    <!--远程字体库-->
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
+        $youziku.draw();
+    </script>
 
 </head>
 
@@ -31,6 +38,7 @@ $comments = $data['comments'];
 //print_r($data);
 ?>
 <?php include_once('menu.php');?>
+<?php if($images):?>
 <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
@@ -47,6 +55,7 @@ $comments = $data['comments'];
         <?php endfor; ?>
     </ol>
 </div>
+<?php endif;?>
 <div class="follow">
     <?php if(!empty($data['follow_status']) && $data['follow_status'] == 1):?>
         <button id="follow" class="btn btn-sm btn-follow">已关注</button>
@@ -55,6 +64,14 @@ $comments = $data['comments'];
     <?php endif; ?>
 </div>
 <div class="comment">
+    <div class="memorial-name container">
+        <div class="title">
+            <?php echo htmlspecialchars_decode($memorial['name']); ?>
+        </div>
+        <div class="time">
+            <?php echo $memorial['birthday']. ' - '. $memorial['death']?>
+        </div>
+    </div>
     <div class="container">
         <form action="" method="post">
             <textarea name="content" class="form-control" rows="4" placeholder="追思留言，300字以内"></textarea>
@@ -68,14 +85,19 @@ $comments = $data['comments'];
         <div class="container">
             <ul class="list-unstyled">
                 <?php foreach ($comments as $comment):?>
-                    <li>
+                    <li data-id="<?php echo $comment['id']?>">
                         <div class="title">
-                            <span class="time"><?php echo date('Y-m-d',$comment['ctime']);?></span>
+                            <span class="time"><?php echo $comment['ctime'];?></span>
                             <span class="author"><?php echo $comment['nickname'] ?>:</span>
                         </div>
                         <div class="comment-content">
                             <?php echo $comment['content']?>
                         </div>
+                        <?php if(!empty($_SESSION['user']['user_id']) && $memorial['user_id'] == $_SESSION['user']['user_id']):?>
+                        <div class="operation">
+                            <button class="btn btn-xs btn-primary comment-del"><i class="fa fa-times"></i> 删除</button>
+                        </div>
+                        <?php endif;?>
                     </li>
                 <?php endforeach;?>
             </ul>
@@ -96,7 +118,7 @@ $comments = $data['comments'];
                     <span class="bar-label">纪事</span>
                 </a>
                 <a class="bar-item" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
-                    <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
+                    <span class="bar-icon"><i class="fa fa-gift"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>
                 <a class="bar-item active" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">
@@ -141,6 +163,105 @@ $comments = $data['comments'];
                 }else if(data.status == -2){
                     window.location.href='<?php echo site_url('login/index')?>';
                 }
+            }
+        });
+    });
+</script>
+
+<!--删除评论-->
+<script>
+    $('body').on('click','.comment-del',function(){
+        var _this = $(this).parent().parent();
+        var id = _this.data('id');
+        //console.log(id);
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo site_url('memorial/delcomment')?>?id='+id,
+            dataType: 'text',
+            success: function(data){
+                //console.log(data);
+                if(data == 'true'){
+                    _this.remove();
+                }else{
+                    alert('删除失败');
+                }
+            }
+        });
+    });
+</script>
+
+<!--ajax分页-->
+<script src="<?php echo base_url() ?>/assets/home/js/dropload.min.js"></script>
+<script>
+    $(function(){
+        // 页数
+        var page = 1;
+        // 每页展示20个
+        var size = 20;
+
+        // dropload
+        $('.comment-list').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                page++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: '<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>&page='+page+'&size='+size,
+                    dataType: 'json',
+                    success: function(data){
+                        //console.log(data);
+                        var arrLen = data.length;
+                        if(arrLen > 0){
+                            var operation;
+                            operation = '<?php echo  !empty($_SESSION['user']['user_id']) && $memorial['user_id'] == $_SESSION['user']['user_id'] ? 1:0?>';
+                            if(operation == 1){
+                                for(var i=0; i<arrLen; i++){
+                                    result += '<li data-id="'+data[i].id+'">\n' +
+                                        '<div class="title">\n' +
+                                        '<span class="time">'+data[i].ctime+'</span>\n'+
+                                        '<span class="author">'+data[i].nickname+':</span>\n' +
+                                        '</div>\n' +
+                                        '<div class="comment-content">\n' +
+                                        data[i].content+'\n' +
+                                        '</div>\n' +
+                                        '<div class="operation">\n'+
+                                        '<button class="btn btn-xs btn-primary comment-del"><i class="fa fa-times"></i> 删除</button>\n'+
+                                        '</div>\n'+
+                                        '</li>';
+                                }
+                            }else{
+                                for(var i=0; i<arrLen; i++){
+                                    result += '<li data-id="'+data[i].id+'">\n' +
+                                        '<div class="title">\n' +
+                                        '<span class="time">'+data[i].ctime+'</span>\n'+
+                                        '<span class="author">'+data[i].nickname+':</span>\n' +
+                                        '</div>\n' +
+                                        '<div class="comment-content">\n' +
+                                        data[i].content+'\n' +
+                                        '</div>\n' +
+                                        '</li>';
+                                }
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 插入数据到页面，放到最后面
+                        $('.comment-list .container ul').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
             }
         });
     });

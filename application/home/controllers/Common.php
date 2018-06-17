@@ -146,4 +146,63 @@ class Common extends CI_Controller {
         exit;
     }
 
+    /**
+     * 产生随机数串
+     * @param integer $len 随机数字长度
+     * @return string
+     */
+    public function randomKeys($length = 6)
+    {
+        $key='';
+        $pattern='1234567890';
+        for($i=0;$i<$length;++$i) {
+            $key .= $pattern{mt_rand(0,9)};    // 生成php随机数
+        }
+        return $key;
+    }
+
+    /*
+     * 发送短信
+     */
+    public function luosimao($mobile,$code)
+    {
+        $sql = 'SELECT * FROM settings WHERE name LIKE "sms_lsm_%"';
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row){
+            switch ($row['name']){
+                case 'sms_lsm_key':
+                    $luosimao_key = $row['value'];
+                    break;
+                case 'sms_lsm_tpl':
+                    $tpl = $row['value'];
+                    break;
+            }
+        }
+        if (!$luosimao_key || !$tpl){
+            return false;
+        }
+        $message = str_replace('{code}',$code,$tpl);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://sms-api.luosimao.com/v1/send.json");
+
+        curl_setopt($ch, CURLOPT_HTTP_VERSION  , CURL_HTTP_VERSION_1_0 );
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 8);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+        curl_setopt($ch, CURLOPT_HTTPAUTH , CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD  , 'api:key-'.$luosimao_key);
+
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array('mobile' => $mobile,'message' => $message));
+
+        $res = curl_exec( $ch );
+        curl_close( $ch );
+        //$res  = curl_error( $ch );
+        $res = json_decode($res,true);
+        if ($res['error'] == 0 && $res['msg'] == 'ok'){
+            return true;
+        }
+        return false;
+    }
 }

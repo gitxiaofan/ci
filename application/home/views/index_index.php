@@ -12,11 +12,17 @@
     <link rel="shortcut icon" href="<?php echo base_url() ?>/assets/home/favicon.ico">
     <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/dropload.css" rel="stylesheet">
 
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-
+    <!--远程字体库-->
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
+        $youziku.draw();
+    </script>
 </head>
 
 <body class="main-bg">
@@ -25,46 +31,48 @@
 //print_r($_SESSION['user']);
 ?>
 <?php include_once('menu.php');?>
-
-<div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
-    <!-- 轮播（Carousel）项目 -->
-    <div class="carousel-inner">
-        <?php foreach($data['sliders'] as $k => $slider): ?>
-        <div class="item <?php echo $k == 0 ? 'active':'' ?>">
-            <a href="<?php echo $slider['link']?>"><img src="<?php echo $slider['pic']?>" alt="<?php echo $slider['title']?>"></a>
+<div class="index-top">
+    <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <?php foreach($data['sliders'] as $k => $slider): ?>
+                <div class="item <?php echo $k == 0 ? 'active':'' ?>">
+                    <a href="<?php echo $slider['link']?>"><img src="<?php echo $slider['pic']?>" alt="<?php echo $slider['title']?>"></a>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <?php for($i=0;$i<=$k;$i++):?>
+                <li data-target="#slider" data-slide-to="<?php echo $i;?>" class="<?php echo $i==0 ? 'active':''?>"></li>
+            <?php endfor; ?>
+        </ol>
     </div>
-    <!-- 轮播（Carousel）指标 -->
-    <ol class="carousel-indicators">
-        <?php for($i=0;$i<=$k;$i++):?>
-        <li data-target="#slider" data-slide-to="<?php echo $i;?>" class="<?php echo $i==0 ? 'active':''?>"></li>
-        <?php endfor; ?>
-    </ol>
-</div>
-<div class="home-search">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="search-form">
-                    <form action="" method="get">
-                        <div class="input-group">
-                            <input type="text" name="k" class="form-control" placeholder="请输入纪念人姓名" value="<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-primary">搜索</button>
+    <div class="home-search">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="search-form">
+                        <form action="" method="get">
+                            <div class="input-group">
+                                <input type="text" name="k" class="form-control" placeholder="请输入纪念人姓名" value="<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>">
+                                <span class="input-group-btn">
+                                <input type="submit" class="btn btn-primary" value="搜索">
                             </span>
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="home-list">
+<div class="home-list content">
     <div class="container">
         <div class="row">
             <?php if($data['memorials']): ?>
+            <?php if(empty($_GET['k'])):?>
             <?php foreach($data['memorials'] as $memorail): ?>
             <div class="col-xs-3">
                 <div class="item">
@@ -74,6 +82,18 @@
                 </div>
             </div>
             <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach($data['memorials'] as $memorail): ?>
+                <div class="col-xs-12">
+                    <div class="item item-k">
+                        <a href="<?php echo site_url('memorial/detail').'?id='. $memorail['id']; ?>">
+                            <span class="name <?php echo $memorail['is_strong'] == 1 ? 'strong':''?>"><?php echo $memorail['name']?></span>
+                            <span class="time">(<?php echo $memorail['birthday']. '-'. $memorail['death']?>)</span>
+                        </a>
+                    </div>
+                </div>
+                    <?php endforeach; ?>
+            <?php endif; ?>
             <?php else: ?>
             <div class="col-xs-12">
                 <div class="item">
@@ -92,84 +112,66 @@
 
 <!-- 自定义js -->
 <script src="<?php echo base_url() ?>/assets/home/js/content.js"></script>
+
+<!--ajax分页-->
+<script src="<?php echo base_url() ?>/assets/home/js/dropload.min.js"></script>
 <script>
-    //上拉ajax加载
     $(function(){
+        // 页数
+        var page = 1;
+        // 每页展示5个
+        var size = 40;
 
-        /*初始化*/
-        var counter = 0; /*计数器*/
-        var pageStart = 0; /*offset*/
-        var pageSize = 7; /*size*/
-        var isEnd = false;/*结束标志*/
-
-        /*监听加载更多*/
-        $(window).scroll(function(){
-            if(isEnd == true){
-                return;
-            }
-
-            // 当滚动到最底部以上100像素时， 加载新内容
-            // 核心代码
-            if ($(document).height() - $(this).scrollTop() - $(this).height()<100){
-                counter ++;
-                pageStart = counter * pageSize;
-
-                //getData(pageStart, pageSize);
+        // dropload
+        $('.content').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                page++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: '<?php echo site_url('index/index')?>?page='+page+'&size='+size+'&k=<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>',
+                    dataType: 'json',
+                    success: function(data){
+                        //console.log(data);
+                        var arrLen = data.length;
+                        if(arrLen > 0){
+                            for(var i=0; i<arrLen; i++){
+                                var c = '';
+                                if(data[i].is_strong == 1){
+                                    c = 'strong';
+                                }
+                                result += '<div class="col-xs-3">'
+                                    +'<div class="item">'
+                                    +'<a href="<?php echo site_url('memorial/detail').'?id='; ?>' + data[i].id + '">'
+                                    +'<span class="name ' + c + '">' + data[i].name + '</span>'
+                                    +'</a>'
+                                    +'</div>'
+                                    +'</div>';
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 插入数据到页面，放到最后面
+                        $('.content .container .row').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
             }
         });
     });
-
-    function getData(offset,size){
-        $.ajax({
-            type: 'GET',
-            url: 'json/blog.json',
-            dataType: 'json',
-            success: function(reponse){
-
-                var data = reponse.list;
-                var sum = reponse.list.length;
-
-                var result = '';
-
-                /****业务逻辑块：实现拼接html内容并append到页面*********/
-
-                //console.log(offset , size, sum);
-
-                /*如果剩下的记录数不够分页，就让分页数取剩下的记录数
-                * 例如分页数是5，只剩2条，则只取2条
-                *
-                * 实际MySQL查询时不写这个不会有问题
-                */
-                if(sum - offset < size ){
-                    isEnd = true;
-                }
-
-                /*使用for循环模拟SQL里的limit(offset,size)*/
-                for(var i=offset; i< (offset+size); i++){
-                    result +='<div class="weui_media_box weui_media_text">'+
-                        '<a href="'+ data[i].url +'" target="_blank"><h4 class="weui_media_title">'+ data[i].title +'</h4></a>'+
-                        '<p class="weui_media_desc">'+ data[i].desc +'</p>'+
-                        '</div>';
-                }
-
-                $('.js-blog-list').append(result);
-
-                /*******************************************/
-
-                /*隐藏more按钮*/
-                if ( (offset + size) >= sum){
-                    $(".js-load-more").hide();
-                }else{
-                    $(".js-load-more").show();
-                }
-            },
-            error: function(xhr, type){
-                alert('Ajax error!');
-            }
-        });
-    }
 </script>
-
 
 </body>
 

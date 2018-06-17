@@ -52,7 +52,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element">H+
+                        <div class="logo-element">思
                         </div>
                     </li>
                     <li>
@@ -111,6 +111,21 @@
                     </li>
                     <li>
                         <a href="#">
+                            <i class="fa fa-clone"></i>
+                            <span class="nav-label">页面</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('page/index'); ?>">所有页面</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="<?php echo site_url('page/add'); ?>">添加页面</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
                             <i class="fa fa-users"></i>
                             <span class="nav-label">用户</span>
                             <span class="fa arrow"></span>
@@ -150,7 +165,7 @@
                                 <a class="J_menuItem" href="<?php echo site_url('settings/index'); ?>">常规设置</a>
                             </li>
                             <li>
-                                <a class="J_menuItem" href="<?php echo site_url('settings/send'); ?>">邮件/短信发送</a>
+                                <a class="J_menuItem" href="<?php echo site_url('settings/sms'); ?>">短信发送</a>
                             </li>
                         </ul>
                     </li>

@@ -113,7 +113,17 @@ class User extends Common
 
     public function del()
     {
-
+        $data = array(
+            'title' => '修改用户',
+            'action' => 'mod',
+        );
+        $id = intval($_GET['id']);
+        if (!$id){
+            show_error('ID不能为空','-1');
+        }
+        $sql = 'DELETE FROM user WHERE user_id='.$id;
+        $this->db->query($sql);
+        redirect('user/index');
     }
 
     public function checkMobile()

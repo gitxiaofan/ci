@@ -20,11 +20,17 @@ $gifts = $data['gifts'];
 
     <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>/assets/home/css/dropload.css" rel="stylesheet">
 
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-
+    <!--远程字体库-->
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
+        $youziku.draw();
+    </script>
 </head>
 
 <body class="detail-bg">
@@ -32,6 +38,7 @@ $gifts = $data['gifts'];
 //print_r($data);
 ?>
 <?php include_once('menu.php');?>
+<?php if($images):?>
 <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
@@ -48,6 +55,7 @@ $gifts = $data['gifts'];
         <?php endfor; ?>
     </ol>
 </div>
+<?php endif;?>
 <div class="follow">
     <?php if(!empty($data['follow_status']) && $data['follow_status'] == 1):?>
         <button id="follow" class="btn btn-sm btn-follow">已关注</button>
@@ -56,6 +64,14 @@ $gifts = $data['gifts'];
     <?php endif; ?>
 </div>
 <div class="sacrifice">
+    <div class="memorial-name container">
+        <div class="title">
+            <?php echo htmlspecialchars_decode($memorial['name']); ?>
+        </div>
+        <div class="time">
+            <?php echo $memorial['birthday']. ' - '. $memorial['death']?>
+        </div>
+    </div>
     <div class="sacrifice-list">
         <div class="container">
             <form method="post" action="">
@@ -101,7 +117,7 @@ $gifts = $data['gifts'];
                     <span class="bar-label">纪事</span>
                 </a>
                 <a class="bar-item active" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
-                    <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
+                    <span class="bar-icon"><i class="fa fa-gift"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>
                 <a class="bar-item" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">
@@ -146,6 +162,56 @@ $gifts = $data['gifts'];
                 }else if(data.status == -2){
                     window.location.href='<?php echo site_url('login/index')?>';
                 }
+            }
+        });
+    });
+</script>
+
+<!--ajax分页-->
+<script src="<?php echo base_url() ?>/assets/home/js/dropload.min.js"></script>
+<script>
+    $(function(){
+        // 页数
+        var page = 1;
+        // 每页展示20个
+        var size = 20;
+
+        // dropload
+        $('.gift-list').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                page++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: '<?php echo site_url('memorial/gifts'). '?id='. $memorial['id']?>&page='+page+'&size='+size,
+                    dataType: 'json',
+                    success: function(data){
+                        //console.log(data);
+                        var arrLen = data.length;
+                        if(arrLen > 0){
+                            for(var i=0; i<arrLen; i++){
+                                result += '<li><span class="time">'+data[i].ctime+'</span><span class="author">'+data[i].nickname+'</span>献'+data[i].sacrifice_name+'</li>';
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 插入数据到页面，放到最后面
+                        $('.gift-list .container ul').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
             }
         });
     });

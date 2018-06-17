@@ -27,7 +27,7 @@
         <div>
             <div>
 
-                <h1 class="logo-name">H+</h1>
+                <h1 class="logo-name">思</h1>
 
             </div>
             <h3>管理员登陆</h3>

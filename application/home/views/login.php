@@ -27,7 +27,7 @@
     <div>
         <div>
 
-            <h1 class="logo-name">H+</h1>
+            <h1 class="logo-name">思</h1>
 
         </div>
         <h3>会员登陆</h3>
@@ -41,7 +41,7 @@
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
             <p class="text-muted text-center">
-                <a href="login.html#"><small>忘记密码了？</small></a> | <a href="<?php echo site_url('login/reg')?>">注册一个新账号</a>
+                <a href="<?php echo site_url('login/passwordforget')?>"><small>忘记密码了？</small></a> | <a href="<?php echo site_url('login/reg')?>">注册一个新账号</a>
             </p>
         </form>
         <?php if(!empty($data['error']['status']) && $data['error']['status'] < 0):?>

@@ -26,7 +26,7 @@
     <div>
         <div>
 
-            <h1 class="logo-name">H+</h1>
+            <h1 class="logo-name">思</h1>
 
         </div>
         <h3>会员注册</h3>
@@ -74,7 +74,7 @@
 <script src="<?php echo base_url() ?>/assets/home/js/demo/form-validate-demo.js"></script>
 
 <script>
-    $().ready(function(){
+    $().ready(function() {
         var icon = "<i class='fa fa-times-circle'></i> ";
         $('#reg').validate({
             rules: {
@@ -101,8 +101,10 @@
                         dataType: "json",
                         cache: false,
                         async: false,
-                        data:{
-                            mobile: function(){ return $("#mobile").val(); }
+                        data: {
+                            mobile: function () {
+                                return $("#mobile").val();
+                            }
                         }
                     }
                 }
@@ -124,10 +126,11 @@
                 mobile: {
                     number: icon + "请输入正确格式的手机号码",
                     required: icon + "请输入您的手机号",
-                    remote : icon + "此手机号已被注册"
+                    remote: icon + "此手机号已被注册"
                 }
             }
         });
+    });
 </script>
 </body>
 

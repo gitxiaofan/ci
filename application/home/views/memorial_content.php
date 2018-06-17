@@ -22,7 +22,12 @@ $images = $data['images'];
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-
+    <!--远程字体库-->
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
+        $youziku.draw();
+    </script>
 </head>
 
 <body class="detail-bg">
@@ -30,6 +35,7 @@ $images = $data['images'];
 //print_r($data);
 ?>
 <?php include_once('menu.php');?>
+<?php if($images):?>
 <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
@@ -46,6 +52,7 @@ $images = $data['images'];
         <?php endfor; ?>
     </ol>
 </div>
+<?php endif;?>
 <div class="follow">
     <?php if(!empty($data['follow_status']) && $data['follow_status'] == 1):?>
         <button id="follow" class="btn btn-sm btn-follow">已关注</button>
@@ -54,13 +61,15 @@ $images = $data['images'];
     <?php endif; ?>
 </div>
 <div class="content">
-    <div class="container">
+    <div class="memorial-name container">
         <div class="title">
             <?php echo htmlspecialchars_decode($memorial['name']); ?>
         </div>
         <div class="time">
             <?php echo $memorial['birthday']. ' - '. $memorial['death']?>
         </div>
+    </div>
+    <div class="container">
         <div class="info">
             <?php echo htmlspecialchars_decode($memorial['content']); ?>
         </div>
@@ -80,7 +89,7 @@ $images = $data['images'];
                     <span class="bar-label">纪事</span>
                 </a>
                 <a class="bar-item" href="<?php echo site_url('memorial/sacrifice'). '?id='. $memorial['id']?>">
-                    <span class="bar-icon"><i class="fa fa-tachometer"></i></span>
+                    <span class="bar-icon"><i class="fa fa-gift"></i></span>
                     <span class="bar-label">礼祭</span>
                 </a>
                 <a class="bar-item" href="<?php echo site_url('memorial/comment'). '?id='. $memorial['id']?>">

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>编辑广告 - 追思网</title>
+    <title>编辑广告分类 - 追思网</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link href="<?php echo base_url() ?>/assets/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/admin/css/font-awesome.css?v=4.4.0" rel="stylesheet">
@@ -26,9 +26,9 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>添加/编辑广告</h5>
+                    <h5>添加/编辑广告分类</h5>
                     <div class="ibox-tools">
-                        <a href="<?php echo site_url('ad/index')?>">
+                        <a href="<?php echo site_url('ad/cat')?>">
                             <i class="fa fa-reply"></i> 返回上一页
                         </a>
                     </div>
@@ -36,40 +36,10 @@
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" id="add" method="post" enctype ="multipart/form-data">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">广告标题：</label>
+                            <label class="col-sm-3 control-label">分类标题：</label>
                             <div class="col-sm-8">
-                                <input id="title" name="title" value="<?php echo empty($ad['title']) ? '':$ad['title']; ?>" class="form-control" type="text">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 广告标题必须填写</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">上传广告图片：</label>
-                            <div class="col-sm-8">
-                                <input type="file" name="pic" class="form-control" accept="image/*">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <?php echo $action =='mod' ? '留空是不修改图片，':''?>上传图片大小最大是2M，建议尺寸600*400</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">分类：</label>
-                            <div class="col-sm-8">
-                                <select class="form-control m-b" name="cat_id">
-                                    <?php foreach($adcats as $k => $val): ?>
-                                    <option <?php echo empty($ad['cat_id']) ? '' : $k == $ad['cat_id'] ? 'selected':''?> value="<?php echo $k; ?>"><?php echo $val?></option>
-                                    <?php endforeach;?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">跳转链接：</label>
-                            <div class="col-sm-8">
-                                <input id="link" name="link" value="<?php echo empty($ad['link']) ? '':$ad['link']; ?>" class="form-control" type="text">
-                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>填写点击图片跳转的网址</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">排序：</label>
-                            <div class="col-sm-8">
-                                <input id="sort" name="sort" class="form-control" value="<?php echo isset($ad['sort']) ? $ad['sort']:''; ?>" >
+                                <input id="name" name="name" value="<?php echo empty($adcat['name']) ? '':$adcat['name']; ?>" class="form-control" type="text">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 分类标题必须填写</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -104,13 +74,13 @@
         var icon = "<i class='fa fa-times-circle'></i> ";
         $('#add').validate({
             rules: {
-                title: {
+                name: {
                     required: true,
                     minlength: 1
                 }
             },
             messages: {
-                title: {
+                name: {
                     required: icon + "请输入广告名称",
                     minlength: icon + "广告名称必须一个字符以上"
                 }

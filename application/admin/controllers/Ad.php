@@ -116,7 +116,7 @@ class Ad extends Common
         $data = array(
             'title' => '广告分类',
         );
-        $sql = 'SELECT * FROM ad_cat';
+        $sql = 'SELECT * FROM ad_cat ORDER BY id DESC';
         $query = $this->db->query($sql);
         $res = $query->result_array();
         $adcats = array();
@@ -127,5 +127,63 @@ class Ad extends Common
         $data['adcats'] = $adcats;
         $this->load->view('ad_cat_index',$data);
     }
+
+    public function addcat()
+    {
+        $data = array(
+            'title' => '添加分类',
+            'action' => 'add'
+        );
+        if(isset($_POST) && $_POST){
+            if(!$name = $_POST['name']){
+                show_error('分类标题不能为空');
+            }
+            $time = time();
+            $sql = 'INSERT INTO ad_cat SET name="'. $name. '", ctime='.$time;
+            $this->db->query($sql);
+            redirect('ad/cat');
+        }
+        $this->load->view('ad_cat_form',$data);
+    }
+
+    public function modcat()
+    {
+        $data = array(
+            'title' => '添加分类',
+            'action' => 'mod'
+        );
+        if(!$_GET['id']){
+            show_error('ID不能为空');
+        }
+        $id = intval($_GET['id']);
+        if(isset($_POST) && $_POST){
+            if(!$name = $_POST['name']){
+                show_error('分类标题不能为空');
+            }
+            $sql = 'UPDATE ad_cat SET name="'. $name. '" WHERE id='.$id;
+            $this->db->query($sql);
+            redirect('ad/cat');
+        }
+        $sql = 'SELECT * FROM ad_cat WHERE id='.$id;
+        $q = $this->db->query($sql);
+        $res = $q->result_array();
+        $data['adcat'] = $res[0];
+        $this->load->view('ad_cat_form',$data);
+    }
+
+    public function delcat()
+    {
+        $data = array(
+            'title' => '删除分类'
+        );
+        if(!$_GET['id']){
+            show_error('ID不能为空');
+        }
+        $id = intval($_GET['id']);
+        $sql = 'DELETE FROM ad_cat WHERE id='.$id;
+        $this->db->query($sql);
+        redirect('ad/cat');
+    }
+
 
 }

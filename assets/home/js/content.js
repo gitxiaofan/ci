@@ -91,4 +91,4 @@ $("#mobile-nav-taggle").click(function () {
             mobileMenu.addClass("show-nav").removeClass("hide-nav");
         }, 100)
     }
-})
+});

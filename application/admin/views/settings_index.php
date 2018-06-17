@@ -18,6 +18,9 @@
 </head>
 
 <body class="gray-bg">
+<?php
+//print_r($settings);
+?>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-sm-12">
@@ -68,6 +71,16 @@
                                 <select class="form-control m-b" name="homeslider">
                                     <?php foreach($settings['adcats'] as $k => $val): ?>
                                         <option <?php echo empty($settings['homeslider']) ? '' : $k == $settings['homeslider'] ? 'selected':''?> value="<?php echo $k; ?>"><?php echo $val?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关于我们：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control m-b" name="about">
+                                    <?php foreach($settings['pages'] as $k => $val): ?>
+                                        <option <?php echo empty($settings['about']) ? '' : $k == $settings['about'] ? 'selected':''?> value="<?php echo $k; ?>"><?php echo $val?></option>
                                     <?php endforeach;?>
                                 </select>
                             </div>
