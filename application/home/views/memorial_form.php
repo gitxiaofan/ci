@@ -22,13 +22,6 @@ $images = empty($data['images']) ? '':$data['images'];
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/home/css/plugins/simditor/simditor.css" />
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-    <!--远程字体库-->
-    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
-    <script type="text/javascript">
-        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
-        $youziku.draw();
-    </script>
-
 </head>
 
 <body class="detail-bg">
@@ -75,7 +68,7 @@ $images = empty($data['images']) ? '':$data['images'];
 
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">简介：</label>
+                            <label class="col-sm-3 control-label">墓志铭：</label>
                             <div class="col-sm-8">
                                 <textarea id="brief" name="brief" class="form-control" rows="3" placeholder="限300字内"><?php echo empty($memorial['brief']) ? '':$memorial['brief']; ?></textarea>
                             </div>
@@ -83,21 +76,24 @@ $images = empty($data['images']) ? '':$data['images'];
                         <div class="form-group">
                             <label class="col-sm-3 control-label">生日：</label>
                             <div class="col-sm-8">
-                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="格式 xxxx年x月x日">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">忌日：</label>
                             <div class="col-sm-8">
-                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="格式 xxxx年x月x日">
                             </div>
                         </div>
+
+                        <!--
                         <div class="form-group">
                             <label class="col-sm-3 control-label">墓志铭：</label>
                             <div class="col-sm-8">
                                 <textarea id="epitaph" name="epitaph" class="form-control" rows="3" placeholder="限100字内"><?php echo empty($memorial['epitaph']) ? '':$memorial['epitaph']; ?></textarea>
                             </div>
                         </div>
+                        -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">纪事：</label>
@@ -124,23 +120,26 @@ $images = empty($data['images']) ? '':$data['images'];
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
                 </button>
-                <div class="btn-group">
-                    <label title="上传图片" for="inputImage" class="btn btn-info">
-                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 选择本地图片
-                    </label>
-                </div>
+                <strong>上传图片</strong>
             </div>
-            <div class="modal-body">
+            <div class="modal-body">                
                 <div class="image-crop">
                     <img src="<?php echo base_url() ?>/assets/home/img/avater.jpg">
                 </div>
             </div>
             <div class="modal-footer">
+                <div class="btn-group pull-left">
+                    <label title="上传图片" for="inputImage" class="btn btn-info">
+                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 选择本地图片
+                    </label>
+                </div>
                 <div class="btn-group">
                     <button class="btn btn-white" id="zoomIn" type="button">放大</button>
                     <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                    <!--
                     <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
                     <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                    -->
                     <button class="btn btn-primary" id="download" type="button">裁剪上传</button>
                 </div>
             </div>
@@ -230,7 +229,7 @@ $images = empty($data['images']) ? '':$data['images'];
 
         var $image = $(".image-crop > img")
         $($image).cropper({
-            aspectRatio: 1.618,
+            aspectRatio: 0.7,
             //preview: ".img-preview",
             done: function (data) {
                 // 输出结果
@@ -290,7 +289,7 @@ $images = empty($data['images']) ? '':$data['images'];
         $("#zoomOut").click(function () {
             $image.cropper("zoom", -0.1);
         });
-
+        /*
         $("#rotateLeft").click(function () {
             $image.cropper("rotate", 90);
         });
@@ -298,7 +297,7 @@ $images = empty($data['images']) ? '':$data['images'];
         $("#rotateRight").click(function () {
             $image.cropper("rotate", -90);
         });
-
+        */
         $("#setDrag").click(function () {
             $image.cropper("setDragMode", "crop");
         });

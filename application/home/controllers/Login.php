@@ -28,7 +28,7 @@ class Login extends Common {
         if (!$_POST['mobile'] || !$_POST['password']){
             return array('message'=>'手机号或密码不能为空', 'status' => '-1');
         }
-        $mobile = $_POST['mobile'];
+        $mobile = addslashes(trim($_POST['mobile']));
         $password = md5($_POST['password']);
         $sql = 'SELECT * FROM user WHERE mobile = "'. $mobile. '" AND password = "'. $password. '"';
         $query = $this->db->query($sql);

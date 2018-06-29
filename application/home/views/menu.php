@@ -28,8 +28,10 @@
     <?php endif;?>
 </div>
 <!--手机导航栏侧滑-->
-<div class="nav-btn">
+<div id="mobile-nav-btn" class="nav-btn">
     <a href="javascript:void(0)" class="animated bounceInUp mobile-nav-taggle" id="mobile-nav-taggle">
         <span class="glyphicon glyphicon-align-justify"></span>
     </a>
 </div>
+
+<div id="menu-cover"></div>

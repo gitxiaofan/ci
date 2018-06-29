@@ -53,6 +53,7 @@
                             <th>ID</th>
                             <th>页面标题</th>
                             <th>创建时间</th>
+                            <th>页面链接</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -62,8 +63,10 @@
                                 <td><?php echo $page['id']; ?></td>
                                 <td><?php echo $page['title']; ?></td>
                                 <td><?php echo $page['ctime']; ?></td>
+                                <td><?php echo base_url().'index.php/page/detail?id='.$page['id']; ?></td>
                                 <td>
                                     <div class="btn-group">
+                                    	<a href="<?php echo base_url().'index.php/page/detail?id='.$page['id']; ?>" target="_blank" class="btn btn-primary btn-sm">预览</a>
                                         <a href="<?php echo site_url('page/mod'). '?id='. $page['id']; ?>" class="btn btn-info btn-sm">修改</a>
                                         <a href="<?php echo site_url('page/del'). '?id='. $page['id']; ?>" class="btn btn-danger btn-sm">删除</a>
                                     </div>

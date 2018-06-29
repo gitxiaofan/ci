@@ -20,12 +20,6 @@ $user = $data['user'];
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/home/css/plugins/simditor/simditor.css" />
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-    <!--远程字体库-->
-    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
-    <script type="text/javascript">
-        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
-        $youziku.draw();
-    </script>
 </head>
 
 <body class="detail-bg">
@@ -115,11 +109,7 @@ $user = $data['user'];
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
                 </button>
-                <div class="btn-group">
-                    <label title="上传图片" for="inputImage" class="btn btn-info">
-                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 选择本地图片
-                    </label>
-                </div>
+                <strong>上传图片</strong>
             </div>
             <div class="modal-body">
                 <div class="image-crop">
@@ -127,11 +117,18 @@ $user = $data['user'];
                 </div>
             </div>
             <div class="modal-footer">
+                <div class="btn-group pull-left">
+                    <label title="上传图片" for="inputImage" class="btn btn-info">
+                        <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 选择本地图片
+                    </label>
+                </div>
                 <div class="btn-group">
                     <button class="btn btn-white" id="zoomIn" type="button">放大</button>
                     <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                    <!--
                     <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
                     <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                    -->
                     <button class="btn btn-primary" id="download" type="button">裁剪上传</button>
                 </div>
             </div>
@@ -266,9 +263,9 @@ $user = $data['user'];
                         '<input type="hidden" name="avater" value="' + obj.pic + '">\n' +
                         '</div>\n' +
                         '</div>';
-                    if(<?php echo empty($user['avater']) ? 'false':'true'?>){
-                        $('#user-pic').remove;
-                    }
+                    <?php if(!empty($user['avater'])): ?>
+                        $('#user-pic').remove();
+                    <?php endif;?>
                     $('#memorial-pic').append(pichtml);
                 }else{
                     alert(obj.message);
@@ -283,7 +280,7 @@ $user = $data['user'];
         $("#zoomOut").click(function () {
             $image.cropper("zoom", -0.1);
         });
-
+        /*
         $("#rotateLeft").click(function () {
             $image.cropper("rotate", 90);
         });
@@ -291,7 +288,7 @@ $user = $data['user'];
         $("#rotateRight").click(function () {
             $image.cropper("rotate", -90);
         });
-
+        */
         $("#setDrag").click(function () {
             $image.cropper("setDragMode", "crop");
         });

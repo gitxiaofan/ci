@@ -86,6 +86,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">用户使用协议：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control m-b" name="readme">
+                                    <?php foreach($settings['pages'] as $k => $val): ?>
+                                        <option <?php echo empty($settings['readme']) ? '' : $k == $settings['readme'] ? 'selected':''?> value="<?php echo $k; ?>"><?php echo $val?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-8 col-sm-offset-3">
                                 <button class="btn btn-primary" type="submit">提交</button>
                             </div>

@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'	=> '',
+    'dsn'   => '',
     'hostname' => '39.108.15.40',
     'username' => 'jinian_user',
     'password' => 'XHXsHfp3eqpZUu',

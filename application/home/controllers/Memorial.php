@@ -33,8 +33,10 @@ class memorial extends Common {
         $query = $this->db->query($sql);
         $ret = $query->result_array();
         $data['memorial'] = $ret[0];
+        /*
         $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
         $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
+        */
         $data['memorial']['name'] = htmlspecialchars_decode($data['memorial']['name']);
         $data['memorial']['brief'] = htmlspecialchars_decode($data['memorial']['brief']);
         $data['memorial']['epitaph'] = htmlspecialchars_decode($data['memorial']['epitaph']);
@@ -66,8 +68,10 @@ class memorial extends Common {
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
         $data['memorial'] = $this->memorial_model->detail($id);
+        /*
         $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
         $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
+        */
         $data['memorial']['name'] = htmlspecialchars_decode($data['memorial']['name']);
         $data['memorial']['brief'] = htmlspecialchars_decode($data['memorial']['brief']);
         $data['memorial']['epitaph'] = htmlspecialchars_decode($data['memorial']['epitaph']);
@@ -104,8 +108,10 @@ class memorial extends Common {
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
         }
         $data['memorial'] = $this->memorial_model->detail($id);
+        /*
         $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
         $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
+        */
         $data['images'] = $this->memorial_model->images($id);
         $sql = 'SELECT * FROM sacrifice WHERE status = 1 ORDER BY sort ASC';
         $query = $this->db->query($sql);
@@ -166,8 +172,10 @@ class memorial extends Common {
         }
         $data['comments'] = $comments;
         $data['memorial'] = $this->memorial_model->detail($id);
+        /*
         $data['memorial']['birthday'] = empty($data['memorial']['birthday']) ? '':date('Y年m月d日',strtotime($data['memorial']['birthday']));
         $data['memorial']['death'] = empty($data['memorial']['death']) ? '':date('Y年m月d日',strtotime($data['memorial']['death']));
+        */
         $data['images'] = $this->memorial_model->images($id);
         if (!empty($_SESSION['user']['user_id'])){
             $data['follow_status'] = $this->memorial_model->follow($id,$_SESSION['user']['user_id']);
@@ -333,7 +341,7 @@ class memorial extends Common {
         if (!$id){
             show_error('ID不能为空');
         }
-        $sql = 'SELECT * FROM memorial WHERE id = '. $id. ' AND user_id = '.$user_id;
+        $sql = 'SELECT m.*,mc.content FROM memorial m LEFT JOIN memorial_content mc ON m.id = mc.memorial_id WHERE m.id = '. $id. ' AND m.user_id = '.$user_id;
         $query = $this->db->query($sql);
         $ret = $query->result_array();
         $memorial = $ret[0];

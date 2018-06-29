@@ -22,12 +22,6 @@ $images = $data['images'];
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
 
-    <!--远程字体库-->
-    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
-    <script type="text/javascript">
-        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
-        $youziku.draw();
-    </script>
 </head>
 
 <body class="detail-bg">
@@ -36,7 +30,7 @@ $images = $data['images'];
 ?>
 <?php include_once('menu.php');?>
 <?php if($images):?>
-<div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
+<div id="slider" class="carousel slide memorial-slider" data-ride="carousel" data-interval="3000">
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
         <?php foreach($images as $k => $slider): ?>

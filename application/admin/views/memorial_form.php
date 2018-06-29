@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">简介：</label>
+                            <label class="col-sm-3 control-label">墓志铭：</label>
                             <div class="col-sm-8">
                                 <textarea id="brief" name="brief" class="form-control" rows="3"><?php echo empty($memorial['brief']) ? '':$memorial['brief']; ?></textarea>
                             </div>
@@ -48,21 +48,25 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">生日：</label>
                             <div class="col-sm-8">
-                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="birthday" name="birthday" value="<?php echo empty($memorial['birthday']) ? '':$memorial['birthday']; ?>" class="form-control layer-date" placeholder="格式 xxxx年x月x日">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">忌日：</label>
                             <div class="col-sm-8">
-                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})">
+                                <input id="death" name="death" value="<?php echo empty($memorial['death']) ? '':$memorial['death']; ?>" class="form-control layer-date" placeholder="格式 xxxx年x月x日">
                             </div>
                         </div>
+
+                        <!--
                         <div class="form-group">
                             <label class="col-sm-3 control-label">墓志铭：</label>
                             <div class="col-sm-8">
                                 <textarea id="epitaph" name="epitaph" class="form-control" rows="3"><?php echo empty($memorial['epitaph']) ? '':$memorial['epitaph']; ?></textarea>
                             </div>
                         </div>
+                        -->
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">是否突出显示：</label>
                             <div class="col-sm-8">

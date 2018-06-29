@@ -81,14 +81,30 @@ function WinMove() {
 //菜单
 $("#mobile-nav-taggle").click(function () {
     var mobileMenu = $("#mobile-menu");
+    var menubtn = $("#mobile-nav-btn");
+    var menucover = $("#menu-cover");
     if (mobileMenu.hasClass("show-nav")) {
         setTimeout(function () {
             mobileMenu.addClass("hide-nav").removeClass("show-nav");
+            menubtn.css('transform','translateX(0)');
+            menucover.css('display','none');
         }, 100)
     }
     else {
         setTimeout(function (){
             mobileMenu.addClass("show-nav").removeClass("hide-nav");
+            menubtn.css('transform','translateX(-141px)');
+            menucover.css('display','block');
         }, 100)
     }
+});
+
+$("#menu-cover").click(function(){
+    var mobileMenu = $("#mobile-menu");
+    var menubtn = $("#mobile-nav-btn");    
+    setTimeout(function () {
+        mobileMenu.addClass("hide-nav").removeClass("show-nav");
+        menubtn.css('transform','translateX(0)');        
+    }, 100);
+    $(this).css('display','none');
 });

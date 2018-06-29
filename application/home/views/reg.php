@@ -26,7 +26,13 @@
     <div>
         <div>
 
-            <h1 class="logo-name">思</h1>
+            <div class="logo-content">
+                <p>即便身在天涯 / 不敢心忘先祖</p>
+                <p>孝从追思始 / 爱在追思续</p>
+                <p>辛劳功业 / 可勉后人</p>
+                <p>家风精神 / 一脉传承</p>
+            </div>
+            <!--<h1 class="logo-name">思</h1>-->
 
         </div>
         <h3>会员注册</h3>
@@ -42,6 +48,12 @@
             </div>
             <div class="form-group">
                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="请再次输入密码" required="">
+            </div>
+            <div class="form-group text-left">
+                <div class="checkbox i-checks">
+                    <label class="no-padding">
+                        <input id="readme" name="readme" type="checkbox"><i></i> 已阅读并同意《<a href="<?php echo site_url('page/detail'). '?id='.$settings['readme']?>" target="_blank">用户使用协议</a>》</label>
+                </div>
             </div>
             <?php if(!empty($data['error']['status'])):?>
                 <div class="alert alert-danger alert-dismissable">
@@ -66,6 +78,18 @@
 
 <!-- 自定义js -->
 <script src="<?php echo base_url() ?>/assets/home/js/content.js"></script>
+
+<!-- iCheck -->
+<script src="<?php echo base_url() ?>/assets/home/js/plugins/iCheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        $('.i-checks input').iCheck('check');
+    });
+</script>
 
 <!-- jQuery Validation plugin javascript-->
 <script src="<?php echo base_url() ?>/assets/home/js/plugins/validate/jquery.validate.min.js"></script>
@@ -94,7 +118,8 @@
                 mobile: {
                     number: true,
                     required: true,
-                    maxlength: 20,
+                    maxlength: 11,
+                    minlength: 11,
                     remote: {
                         url: "<?php echo site_url('login/checkMobile');?>",
                         type: "post",
@@ -107,6 +132,9 @@
                             }
                         }
                     }
+                },
+                readme: {
+                    required: true
                 }
             },
             messages: {
@@ -126,12 +154,18 @@
                 mobile: {
                     number: icon + "请输入正确格式的手机号码",
                     required: icon + "请输入您的手机号",
-                    remote: icon + "此手机号已被注册"
+                    remote: icon + "此手机号已被注册",
+                    maxlength: icon + "请输入11位手机号码",
+                    minlength: icon + "请输入11位手机号码"
+                },
+                readme: {
+                    required: icon + "请阅读并勾选用户使用协议",
                 }
             }
         });
     });
 </script>
+
 </body>
 
 </html>

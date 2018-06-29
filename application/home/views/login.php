@@ -26,8 +26,13 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
     <div>
         <div>
-
-            <h1 class="logo-name">思</h1>
+        	<div class="logo-content">
+        		<p>即便身在天涯 / 不敢心忘先祖</p>
+        		<p>孝从追思始 / 爱在追思续</p>
+        		<p>辛劳功业 / 可勉后人</p>
+        		<p>家风精神 / 一脉传承</p>
+        	</div>
+            <!--<h1 class="logo-name">思</h1>-->
 
         </div>
         <h3>会员登陆</h3>

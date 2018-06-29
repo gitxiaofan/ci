@@ -10,19 +10,14 @@
     <meta name="keywords" content="<?php echo $settings['sitekeyword']?>">
     <meta name="description" content="<?php echo $settings['sitedescription']?>">
     <link rel="shortcut icon" href="<?php echo base_url() ?>/assets/home/favicon.ico">
+    <link rel="bookmark" type="image/x-icon" href="<?php echo base_url() ?>/assets/home/favicon.ico">
+    <link rel="icon" href="<?php echo base_url() ?>/favicon.jpg">
     <link href="<?php echo base_url() ?>/assets/home/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/font-awesome.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/dropload.css" rel="stylesheet">
 
     <link href="<?php echo base_url() ?>/assets/home/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>/assets/home/css/style.css" rel="stylesheet">
-
-    <!--远程字体库-->
-    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
-    <script type="text/javascript">
-        $youziku.load("body", "6c0c14d3d2da4029bee76c045e977fca", "hdjlibian");
-        $youziku.draw();
-    </script>
 </head>
 
 <body class="main-bg">
@@ -30,39 +25,45 @@
 //print_r($data);
 //print_r($_SESSION['user']);
 ?>
-
 <?php include_once('menu.php');?>
-<div class="index-top">
-    <div id="slider" class="carousel slide" data-ride="carousel" data-interval="3000">
-        <!-- 轮播（Carousel）项目 -->
-        <div class="carousel-inner">
-            <?php foreach($data['sliders'] as $k => $slider): ?>
-                <div class="item <?php echo $k == 0 ? 'active':'' ?>">
-                    <a href="<?php echo $slider['link']?>"><img src="<?php echo $slider['pic']?>" alt="<?php echo $slider['title']?>"></a>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <!-- 轮播（Carousel）指标 -->
-        <ol class="carousel-indicators">
-            <?php for($i=0;$i<=$k;$i++):?>
-                <li data-target="#slider" data-slide-to="<?php echo $i;?>" class="<?php echo $i==0 ? 'active':''?>"></li>
-            <?php endfor; ?>
-        </ol>
+<div id="slider" class="carousel slide home-slider" data-ride="carousel" data-interval="3000">
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <?php foreach($data['sliders'] as $k => $slider): ?>
+            <div class="item <?php echo $k == 0 ? 'active':'' ?>">
+                <a href="<?php echo $slider['link']?>"><img src="<?php echo $slider['pic']?>" alt="<?php echo $slider['title']?>"></a>
+            </div>
+        <?php endforeach; ?>
     </div>
-    <div class="home-search">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="search-form">
-                        <form action="" method="get">
-                            <div class="input-group">
-                                <input type="text" name="k" class="form-control" placeholder="请输入纪念人姓名" value="<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>">
-                                <span class="input-group-btn">
-                                <input type="submit" class="btn btn-primary" value="搜索">
-                            </span>
-                            </div>
-                        </form>
-                    </div>
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <?php for($i=0;$i<=$k;$i++):?>
+            <li data-target="#slider" data-slide-to="<?php echo $i;?>" class="<?php echo $i==0 ? 'active':''?>"></li>
+        <?php endfor; ?>
+    </ol>
+    <!-- 左右翻页 -->
+<a class="left carousel-control" href="#slider" role="button" data-slide="prev">
+<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+<span class="sr-only">Previous</span>
+</a>
+<a class="right carousel-control" href="#slider" role="button" data-slide="next">
+<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+<span class="sr-only">Next</span>
+</a>
+</div>
+<div class="home-search">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="search-form">
+                    <form action="" method="get">
+                        <div class="input-group">
+                            <input type="text" name="k" class="form-control" placeholder="请输入纪念人姓名" value="<?php echo empty($_GET['k']) ? '':$_GET['k']; ?>">
+                            <span class="input-group-btn">
+                            <input type="submit" class="btn btn-primary" value="搜索">
+                        </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -164,7 +165,7 @@
                         me.resetload();
                     },
                     error: function(xhr, type){
-                        alert('Ajax error!');
+                        //alert('Ajax error!');
                         // 即使加载出错，也得重置
                         me.resetload();
                     }

@@ -31,6 +31,10 @@ class User extends Common
             $params['nickname'] = $_POST['nickname'];
             $params['avater'] = $_POST['avater'];
             $this->user_model->mod($user_id,$params);
+            $sql = 'SELECT * FROM user WHERE user_id='. $user_id;
+            $query = $this->db->query($sql);
+            $ret = $query->result_array();
+            $_SESSION['user'] = $ret[0];
         }
         $user = $this->user_model->detail($user_id);
         $data['user'] = $user;

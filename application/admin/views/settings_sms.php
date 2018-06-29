@@ -36,6 +36,7 @@
                             <label class="col-sm-3 control-label">螺丝帽短信 KEY：</label>
                             <div class="col-sm-8">
                                 <input id="sms_lsm_key" name="sms_lsm_key" value="<?php echo empty($settings['sms_lsm_key']) ? '':$settings['sms_lsm_key']; ?>" class="form-control" type="text">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 使用前需要到螺丝帽注册并认证获取你的KEY，螺丝帽官网<a href="https://luosimao.com/" target="_blank" >https://luosimao.com/</a></span>
                             </div>
                         </div>
                         <div class="form-group">
